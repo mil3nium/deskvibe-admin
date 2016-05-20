@@ -1,0 +1,68 @@
+<form id="venue_form">
+
+    <!-- COMPANY INFO -->
+    <h2>Company Info</h2>
+    <fieldset class="form-group row">
+        <label for="type" class="col-sm-2 form-control-label">Info</label>
+
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="type" placeholder="Coworking space or other" value="<%= venue_active.type%>">
+        </div>
+    </fieldset>
+
+    <fieldset class="form-group row">
+        <label for="expertise" class="col-sm-2 form-control-label">Expertise</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="expertise" placeholder="Expertise" value="<%= venue_active.expertise%>">
+        </div>
+    </fieldset>
+
+    <fieldset class="form-group row">
+        <label for="sqm" class="col-sm-2 form-control-label">Sqm</label>
+        <div class="col-sm-10">
+            <input type="number" class="form-control" id="sqm" placeholder="Eg. 50" value="<%= venue_active.sqm%>">
+        </div>
+    </fieldset>
+
+    <fieldset class="form-group row">
+        <label for="description" class="col-sm-2 form-control-label">Description</label>
+
+        <div class="col-sm-10">
+            <textarea class="form-control" id="description" rows="4" ><%= venue_active.description%></textarea>
+        </div>
+    </fieldset>
+
+    <fieldset class="form-group row">
+        <label for="open_hours" class="col-sm-2 form-control-label">Open hours</label>
+
+        <div class="col-sm-10" id="open_hour_list">
+            <%
+                var days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+                var minutes = "00";
+
+                for(var i = 0; i < venue_active.open_hours.length; i++) {%>
+                <div class="days_open">
+                    <div class="day_open"><span style="display: block; width: 50px; float: left;"><%= days[i]%></span>
+
+                        <input <%= (venue_active.open_hours[i].open ? "checked" : "")%>  type="checkbox"> Open</div>
+
+                    <select class="form-control hours_open">
+                        <% for(var j = 0; j < 48; j++) {
+                            var output = Math.floor(j/2) + ":" + (j%2==0 ? "00" : "30");
+                        %>
+                            <option <%= (venue_active.open_hours[i].start == output ? "selected" : "")%>><%= output%></option>
+                        <% } %>
+                    </select>
+                    <select class="form-control hours_closed">
+                        <% for(var j = 0; j < 48; j++) {
+                            var output = Math.floor(j/2) + ":" + (j%2==0 ? "00" : "30");
+                        %>
+                        <option <%= (venue_active.open_hours[i].end == output ? "selected" : "")%>><%= output%></option>
+                        <% } %>
+                    </select>
+                </div>
+            <% } %>
+        </div>
+    </fieldset>
+    <button type="button" class="btn btn-primary col-sm-2" id="submit_details">Submit</button>
+</form>
