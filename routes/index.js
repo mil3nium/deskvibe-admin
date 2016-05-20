@@ -12,7 +12,7 @@ var router = express.Router();
 
 var passport = require('passport');
 var busboy = require('connect-busboy');
-var validator = require('validator');
+//var validator = require('validator');
 
 var util = require('util');
 var Spaces = require('../models/spaces.js');
@@ -94,7 +94,7 @@ router.post('/saveData', function(req, res, next) {
             /**
              * ALL DATA NEEDS TO BE SANITISED !!! FIX!
              */
-            //val = validator.escape(val); 
+            //val = validator.escape(val);
             if(fieldname === 'tags' || fieldname === "amenities") {
                 data.push({fieldname: fieldname, val: val.split(",")});
             } else if(fieldname == "open_hours") {
