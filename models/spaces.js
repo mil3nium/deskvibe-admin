@@ -92,7 +92,7 @@ exports.addSpace = function(_id, state, name, contact_name, contact_email, stree
     
     if(state && name && contact_name && contact_email && street && street_number && postal_code && postal_town &&
         county && country && lat && lng ) {
-
+        console.log(state);
         var location = {
             street: street,
             street_number: street_number,
@@ -151,11 +151,8 @@ exports.addSpace = function(_id, state, name, contact_name, contact_email, stree
 exports.saveData = function (_id, dataList, callback) {
     if(_id && _id != "") {
         Spaces.findOne({_id: _id}, function(err, space) {
-
             dataList.forEach(function(data, i) {
-                if(space[data.fieldname]) {
                     space[data.fieldname] = data.val;
-                }
             });
 
             space.save(function(err) {
@@ -178,9 +175,7 @@ exports.saveOffice = function(_id, dataList, callback) {
             if(!err) {
                 var office = new getOfficesObject();
                 dataList.forEach(function(data, i) {
-                    if(office[data.fieldname]) {
-                        office[data.fieldname] = data.val;
-                    }
+                    office[data.fieldname] = data.val;
                 });
                 space.offices.push(office);
 

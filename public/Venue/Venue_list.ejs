@@ -1,10 +1,10 @@
 <ul class="list-group" id="venue_list">
-    <% for(var i = 0; i < venue_list.length; i++) { %>
-        <li class="list-group-item col-sm-11" value="<%= venue_list[i]._id %>"><%= venue_list[i].name %></li>
-        <button value="<%= i%>" class="btn btn-danger pull-xs-right col-sm-1" id="venue_remove">X</button>
-    <% } %>
+    <% if(venue_list != null) {
+        for(var i = 0; i < venue_list.length; i++) { %>
+            <li class="list-group-item col-sm-11" value="<%= venue_list[i]._id %>"><%= venue_list[i].name %></li>
+            <button value="<%= i%>" class="btn btn-danger pull-xs-right col-sm-1" id="venue_remove">X</button>
+    <% } } %>
 </ul>
-
 
 <button class="btn btn-success col-sm-12" data-toggle="modal" data-target="#venueModal" >Add venue</button>
 

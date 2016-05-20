@@ -7,15 +7,15 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css"
           integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.css" />
 
     <script type="text/javascript">
         var apiKey = "AIzaSyCmNSL6HgFcjoxc9ae8CUy0auroSoYypzM";
         var tags = [];
         var offices = [];
-        var venue_list;
+        var venue_list = null;
         var venue_active;
         var amenities = [
                 "Wi-Fi",
@@ -125,7 +125,14 @@
     <div class="col-sm-12" id="main_content">
 
     </div>
+    <div class="col-sm-12 alert alert-success" style="display: none;" role="alert" id="message-success">
+
+    </div>
+    <div class="col-sm-12 alert alert-warning" style="display: none;" role="alert" id="message-warning">
+
+    </div>
 </div>
+
 
 
 <!-- jQuery first, then Bootstrap JS. -->
@@ -134,6 +141,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"
         integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7"
         crossorigin="anonymous"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <!--<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>-->
 <script src="javascripts/GoogleApi.js"></script>
 <script type="text/javascript" src="/javascripts/ejs_production.js"></script>
@@ -141,6 +149,18 @@
 
 <script type="text/javascript">
     var addressList = null;
+
+    function SUCCESS(msg) {
+        $('#message-success').show().html("<strong>" + msg + "</strong>").fadeOut(3000);
+    }
+
+    function WARNING(msg) {
+        $('#message-warning').show().html("<strong>" + msg + "</strong>").fadeOut(5000);
+    }
+
+    function ERROR(msg) {
+        $('#message-warning').show().html("<strong>" + msg + "</strong>").fadeOut(5000);
+    }
 
 
     function validateEmail(email) {
@@ -229,9 +249,11 @@
                 $('#main_content').html(html.render(html));
             },
             error: function(msg) {
-                console.error(msg);
+               var html = new EJS({url: '/Venue/Venue_list.ejs'});
+               $('#main_content').html(html.render(html));
             }
         });
+
 
         /**
          * Venue Modal
@@ -309,6 +331,7 @@
 
         $('#main_content').on('keypress', '#tag', function(e) {
             if(e.which == 13) {
+                e.preventDefault();
                 addTag($('#tag').val());
             }
         });

@@ -2,6 +2,8 @@
  * Created by Mil3nIuM on 15.05.2016.
  */
 
+
+
 function getHours() {
     var hours = [];
     $('#open_hour_list .days_open').each(function() {
@@ -23,6 +25,7 @@ function POST(url, data) {
             $('#listModal').modal('hide');
             var html = new EJS({url: '/Venue/Venue_info.ejs'});
             $('#main_content').html(html.render(html));
+            SUCCESS("Saved data");
         },
         error: function(msg) {
             console.log(msg);
@@ -41,11 +44,11 @@ function POST_FORM(url, data, callback) {
         cache: false,
         success: function(venue, msg) {
             venue_active = venue;
+            SUCCESS("Saved data");
             callback();
         },
         error: function(msg) {
-            console.log("Could not save data to : " + url + " : ");
-            console.log(msg);
+            ERROR(msg);
         }
     });
 }
@@ -87,6 +90,7 @@ function delete_venue(id) {
             data: {_id: venue_list[id]._id},
             success: function() {
                 console.log("Success");
+                SUCCESS("Deleted venue : " + id);
             },
             error: function(msg) {
                 console.log(msg);
@@ -132,17 +136,8 @@ function submit_amenities() {
     data.append('tags', tags);
     data.append('amenities', getAmenities());
 
-    POST_FORM('/saveData', data);
+    POST_FORM('/saveData', data, function() {
+
+    });
 }
 
-function saved() {
-
-    if(msg.status == 200) {
-        $(':input','#venue_form')
-            .not(':button, :submit, :reset, :hidden, #country')
-            .val('');
-        $('#success-message').show();
-    } else {
-        console.log("Oops. Something went wrong.");
-    }
-}
