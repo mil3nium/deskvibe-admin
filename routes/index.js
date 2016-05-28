@@ -13,6 +13,9 @@ var router = express.Router();
 var passport = require('passport');
 var busboy = require('connect-busboy');
 var request = require('request');
+var http = require('http');
+var url = require('url');
+
 //var validator = require('validator');
 
 var util = require('util');
@@ -26,11 +29,14 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/getGoogleData', function(req, res, next) {
+
     if(req.body.googleAddress) {
+        console.log(process.env.QUOTAGUARDSTATIC_URL);
+
         var options = {
-            proxy: process.env.QUOTAGUARDSTATIC_URL,
+            proxy: process.env.QUOTAGUARDSTATIC_URL || "http://quotaguard5588:d75b9ce4c279@proxy.quotaguard.com:9292",
             url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + req.body.googleAddress + "&language=en&key" + googleApiKey,
-            encoding: 'utf-8',
+            encoding: 'utf8',
             headers: {
                 'User-Agent': 'node.js'
             }

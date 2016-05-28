@@ -27,6 +27,7 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^4.0.0",
     "request": "^2.72.0",
+    "rest-client": "^0.1.5",
     "serve-favicon": "~2.3.0"
   },
   "engines": {
