@@ -12,16 +12,47 @@ var router = express.Router();
 
 var passport = require('passport');
 var busboy = require('connect-busboy');
+var request = require('request');
 //var validator = require('validator');
 
 var util = require('util');
 var Spaces = require('../models/spaces.js');
+
+var googleApiKey = "=AIzaSyCmNSL6HgFcjoxc9ae8CUy0auroSoYypzM";
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('index');
 });
 
+router.post('/getGoogleData', function(req, res, next) {
+    if(req.body.googleAddress) {
+        var options = {
+            proxy: process.env.QUOTAGUARDSTATIC_URL,
+            url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + req.body.googleAddress + "&language=en&key" + googleApiKey,
+            encoding: 'utf-8',
+            headers: {
+                'User-Agent': 'node.js'
+            }
+        };
+
+        function callback(error, response, body) {
+            if(!error && response.statusCode == 200) {
+                console.log(body);
+                res.status(200).send(body);
+                res.end();
+            } else {
+                console.log(error);
+                res.status(500).end("No address with that name")
+            }
+        }
+        
+        request(options, callback);
+    } else {
+        res.status(400).end("No address given");
+    }
+});
+ 
 router.post('/deleteVenue', function(req, res, next) {
     if(req.body._id) {
         Spaces.deleteVenue(req.body._id, function(err) {
@@ -173,5 +204,7 @@ function ensureAdmin(req, res, next) {
         res.redirect('/auth/facebook');
     }
 }
+
+
 
 module.exports = router;

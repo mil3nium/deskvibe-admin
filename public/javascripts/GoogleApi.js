@@ -2,10 +2,23 @@
  * Created by Mil3nIuM on 14.05.2016.
  */
 
-var apiKey = "AIzaSyCmNSL6HgFcjoxc9ae8CUy0auroSoYypzM";
-
 function GoogleGetGeodata(searchString, callback) {
-    $.getJSON("https://maps.googleapis.com/maps/api/geocode/json?address="+ searchString + "+" + $('#search_country').val() + "&key="+apiKey+"&sensor=false&language=en",
+    $.ajax({
+        url: '/getGoogleData',
+        type: 'POST',
+        dataType: 'json',
+        data: {googleAddress: searchString},
+        success: function(address) {
+            callback(address);
+        },
+        error: function(msg) {
+            console.log(msg);
+            callback(false);
+        }
+    });
+
+    /*
+    $.getJSON("https://maps.googleapis.com/maps/api/geocode/json?address="+ searchString + "+" + $('#search_country').val() + "&language=en&key=AIzaSyCmNSL6HgFcjoxc9ae8CUy0auroSoYypzM",
         function(data, textStatus){
             if(data.status === "OK") {
                 callback(data);
@@ -13,6 +26,7 @@ function GoogleGetGeodata(searchString, callback) {
                 callback(false);
             }
         });
+        */
 }
 
 function GetData() {

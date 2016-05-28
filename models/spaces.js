@@ -42,6 +42,7 @@ var Spaces = mongoose.model('Spaces', Spaces);
 
 function getOfficesObject() {
     return {
+        _id: true,
         type: String,
         seats: String,
         description: String,
@@ -169,23 +170,27 @@ exports.saveData = function (_id, dataList, callback) {
     }
 };
 
+function saveOfficeData(space, office, dataList) {
+    dataList.forEach(function(data, i) {
+        office[data.fieldname] = data.val;
+    });
+    space.offices.push(office);
+
+    space.save(function(err) {
+        if(!err) {
+            callback(null, space);
+        } else {
+            callback(err, null);
+        }
+    });
+}
+
 exports.saveOffice = function(_id, dataList, callback) {
     if(_id && _id != "") {
         Spaces.findOne({_id: _id}, function(err, space) {
             if(!err) {
                 var office = new getOfficesObject();
-                dataList.forEach(function(data, i) {
-                    office[data.fieldname] = data.val;
-                });
-                space.offices.push(office);
-
-                space.save(function(err) {
-                    if(!err) {
-                        callback(null, space);
-                    } else {
-                        callback(err, null);
-                    }
-                });
+                saveOfficeData(space, office, dataList, callback);
 
             } else {
                 callback("No venue with that id: " + err, null);
@@ -194,6 +199,20 @@ exports.saveOffice = function(_id, dataList, callback) {
         });
     } else {
         callback("ID is null", null);
+    }
+};
+
+exports.deleteOffice = function(_id, office_id, callback) {
+    if(_id && office_id) {
+        Spaces.update({_id: _id},
+            {$pull: {'venue.offices': { _id: office_id } } },
+        function(err) {
+            if(!err) {
+                callback();
+            } else {
+                callback(err);
+            }
+        });
     }
 };
 
