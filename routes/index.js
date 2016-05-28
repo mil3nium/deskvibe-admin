@@ -13,8 +13,6 @@ var router = express.Router();
 var passport = require('passport');
 var busboy = require('connect-busboy');
 var request = require('request');
-var http = require('http');
-var url = require('url');
 
 //var validator = require('validator');
 
@@ -31,12 +29,12 @@ router.get('/', function(req, res, next) {
 router.post('/getGoogleData', function(req, res, next) {
 
     if(req.body.googleAddress) {
-        console.log(process.env.QUOTAGUARD_URL);
-
+        var address = req.body.googleAddress.replace("æ", "ae");
+        address = address.replace("ø", "o");
+        address = address.replace("å", "a");
         var options = {
-            proxy: process.env.QUOTAGUARD_URL || "http://quotaguard5588:d75b9ce4c279@proxy.quotaguard.com:9292",
-            url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + req.body.googleAddress + "&language=en&key" + googleApiKey,
-            encoding: 'utf8',
+            proxy: process.env.QUOTAGUARDSTATIC_URL,
+            url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&language=en&key" + googleApiKey,
             headers: {
                 'User-Agent': 'node.js'
             }
@@ -44,7 +42,6 @@ router.post('/getGoogleData', function(req, res, next) {
 
         function callback(error, response, body) {
             if(!error && response.statusCode == 200) {
-                console.log(body);
                 res.status(200).send(body);
                 res.end();
             } else {
