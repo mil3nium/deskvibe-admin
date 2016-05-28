@@ -31,10 +31,10 @@ router.get('/', function(req, res, next) {
 router.post('/getGoogleData', function(req, res, next) {
 
     if(req.body.googleAddress) {
-        console.log(process.env.QUOTAGUARDSTATIC_URL);
+        console.log(process.env.QUOTAGUARD_URL);
 
         var options = {
-            proxy: process.env.QUOTAGUARDSTATIC_URL || "http://quotaguard5588:d75b9ce4c279@proxy.quotaguard.com:9292",
+            proxy: process.env.QUOTAGUARD_URL || "http://quotaguard5588:d75b9ce4c279@proxy.quotaguard.com:9292",
             url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + req.body.googleAddress + "&language=en&key" + googleApiKey,
             encoding: 'utf8',
             headers: {
