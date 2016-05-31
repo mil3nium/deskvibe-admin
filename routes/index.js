@@ -134,7 +134,7 @@ router.post('/saveData', function(req, res, next) {
             } else if(fieldname == "open_hours") {
                 data.push({fieldname: fieldname, val: JSON.parse(val)});
             }
-            else if (fieldname == "add_office"){office = true;}
+            else if (fieldname == "office"){office = true;}
             else if(fieldname == "_id") { data.push(val); }
             else data.push({fieldname: fieldname, val: val});
         }
@@ -152,6 +152,7 @@ router.post('/saveData', function(req, res, next) {
         } else {
             Spaces.saveOffice(data.shift(), data, function(err, venue) {
                 if(!err) {
+                    console.log(venue);
                     res.status(200).send(venue);
                     res.end();
                 } else {
@@ -160,6 +161,18 @@ router.post('/saveData', function(req, res, next) {
             });
         }
     });
+});
+
+router.post('/deleteOffice', function(req, res, next) {
+    if(req.body._id && req.body.office_id) {
+        Spaces.deleteOffice(req.body._id, req.body.office_id, function(err) {
+            if(!err) {
+                res.status(200).end();
+            } else {
+                res.status(500).end(err);
+            }
+        })
+    }
 });
 
 router.get('/auth/facebook' ,

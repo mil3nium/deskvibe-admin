@@ -193,7 +193,7 @@
         $('#listModal').modal('hide');
     }
 
-    function createVenueCard(data) {
+    function createVenueCard(i, data) {
 
         var html = '<div class="card col-sm-4">' +
                         '<img class="card-img-top" src="#" alt="Card image cap">' +
@@ -204,6 +204,8 @@
                             "Daily: " + data.day + ' <br> ' +
                             "Weekly: " + data.week + ' <br> ' +
                             "Monthly: " + data.month + '</p>' +
+                            '<button type="button" class="btn btn-primary" id="edit_office" data-id="'+ i +'" data-toggle="modal" data-target="#officeModal">Edit</button>' +
+                            '<button type="button" class="btn btn-danger" id="delete_office" data-id="'+ data._id +'">Delete</button>' +
                         '</div>' +
                     '</div>';
         return html;
@@ -228,13 +230,24 @@
         submit_office(function() {
             var html = "";
             $.each( venue_active.offices, function(i, data) {
-                html += createVenueCard(data);
+                html += createVenueCard(i, data);
             });
 
             $('#main_content #venue_list').html(html);
 
             $('#officeModal').modal('hide');
         });
+    }
+
+    function populate_office_modal(id){
+        $('#office_id').val(venue_active.offices[id]._id);
+        $('#office_type').val(venue_active.offices[id].type);
+        $('#office_seats').val(venue_active.offices[id].seats);
+        $('#office_description').val(venue_active.offices[id].description);
+        $('#office_price_day').val(venue_active.offices[id].day);
+        $('#office_price_week').val(venue_active.offices[id].week);
+        $('#office_price_month').val(venue_active.offices[id].month);
+
     }
 
     $( document ).ready(function() {
@@ -263,12 +276,13 @@
             $('#search_text').focus().select();
         });
 
+
+
         /**
          * CLICK EVENTS
          */
 
         $('#main_content').on('click', 'button', function() {
-
             switch ($(this).attr('id')) {
                 case 'submit_info': submit_info(venue_active._id); break;
                 case 'submit_details': submit_details(); break;
@@ -278,6 +292,8 @@
                 case 'venue_add': submit_info(""); break;
                 case 'venue_remove': delete_venue($(this).attr('value')); break;
                 case 'venue_add_office': add_office(); break;
+                case 'edit_office': populate_office_modal($(this).attr('data-id')); break;
+                case 'delete_office': delete_office($(this).attr('data-id')); break;
             }
         });
 
@@ -317,6 +333,10 @@
 
         $('#main_content').on('click', '#modal-table tr', function() {
             printGoogleData($(this).children()[0].innerHTML);
+        });
+
+        $('.hours_open').change(function(event) {
+            alert("Change");
         });
 
         /**

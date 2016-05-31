@@ -117,8 +117,9 @@ function submit_details() {
 function submit_office(callback) {
     var data = new FormData();
 
-    data.append('add_office', "add_office");
     if(venue_active._id != "") data.append('_id', venue_active._id);
+    if($('#office_id').val()) data.append('office_id', $('#office_id').val());
+    data.append('office', "office");
     data.append('type', $('#office_type').find('option:selected').val());
     data.append('seats', $('#office_seats').val());
     data.append('description', $('#office_description').val());
@@ -127,6 +128,15 @@ function submit_office(callback) {
     data.append('month', $('#office_price_month').val());
     
     POST_FORM('/saveData', data, callback);
+}
+
+function delete_office(id) {
+    var data = {
+        "_id": venue_active._id,
+        'office_id': id
+    };
+
+    POST('/deleteOffice', data);
 }
 
 function submit_amenities() {

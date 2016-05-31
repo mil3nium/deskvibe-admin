@@ -10,7 +10,7 @@ var Schema = mongoose.Schema;
  * List over an space attributes, this is to make it easier to fetch data from the user while coding.
  * @type {mongoose.Account}
  */
-var Spaces = new Schema({
+var Venues = new Schema({
     id: Number,
     state: {type: [String], index: true},
     name: String,
@@ -38,19 +38,17 @@ var Spaces = new Schema({
     offices: []
 }, { collection: 'venues'});
 
-var Spaces = mongoose.model('Spaces', Spaces);
+var Office = new Schema({
+    type: String,
+    seats: String,
+    description: String,
+    day: Number,
+    week: Number,
+    month: Number
+});
 
-function getOfficesObject() {
-    return {
-        _id: true,
-        type: String,
-        seats: String,
-        description: String,
-        day: Number,
-        week: Number,
-        month: Number
-    };
-}
+var Spaces = mongoose.model('Spaces', Venues);
+var Offices = mongoose.model('Office', Office);
 
 exports.deleteVenue = function(_id, callback) {
     Spaces.remove({_id: _id}, function(err) {
@@ -170,15 +168,24 @@ exports.saveData = function (_id, dataList, callback) {
     }
 };
 
-function saveOfficeData(space, office, dataList) {
-    dataList.forEach(function(data, i) {
-        office[data.fieldname] = data.val;
-    });
-    space.offices.push(office);
+function saveOfficeData(_id, office, dataList, callback) {
 
-    space.save(function(err) {
-        if(!err) {
-            callback(null, space);
+    Spaces.findOne({_id: _id}, function(err, space) {
+        if(!err ) {
+            dataList.forEach(function(data, i) {
+                console.log(data.fieldname + " = " + data.val);
+                office[data.fieldname] = data.val;
+            });
+
+            space.offices.push(office);
+            space.save(function(err) {
+                if(!err) {
+                    callback(null, space);
+                } else {
+                    console.log(err);
+                    callback(err, null);
+                }
+            });
         } else {
             callback(err, null);
         }
@@ -186,17 +193,33 @@ function saveOfficeData(space, office, dataList) {
 }
 
 exports.saveOffice = function(_id, dataList, callback) {
+
     if(_id && _id != "") {
-        Spaces.findOne({_id: _id}, function(err, space) {
-            if(!err) {
-                var office = new getOfficesObject();
-                saveOfficeData(space, office, dataList, callback);
+        if(dataList[0].fieldname !== "office_id"){
+            var office = new Offices();
+            saveOfficeData(_id, office, dataList, callback);
+        } else {
+            Spaces.findOne({'_id': _id}, function(err, venue) {
+                    if(!err) {
+                        venue.offices.forEach(function(office, i) {
+                            if(office._id = dataList[0].val) {
+                                venue.offices.splice(i, 1);
 
-            } else {
-                callback("No venue with that id: " + err, null);
-            }
-
-        });
+                                venue.save(function(err) {
+                                    if(!err) {
+                                        var office = new Offices();
+                                        saveOfficeData(_id, office, dataList, callback);
+                                    } else {
+                                        callback(err);
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        callback(err, null);
+                    }
+                });
+        }
     } else {
         callback("ID is null", null);
     }
@@ -204,15 +227,28 @@ exports.saveOffice = function(_id, dataList, callback) {
 
 exports.deleteOffice = function(_id, office_id, callback) {
     if(_id && office_id) {
-        Spaces.update({_id: _id},
-            {$pull: {'venue.offices': { _id: office_id } } },
-        function(err) {
-            if(!err) {
-                callback();
-            } else {
-                callback(err);
-            }
+        Spaces.findOne({'_id': _id}, function(err, venue){
+
+            var offices = venue.offices;
+
+            offices.forEach(function(office, i) {
+                if(office._id == office_id) {
+                    offices.splice(i, 1);
+                    venue.offices = offices;
+                    venue.save(function(err, venue) {
+                        if(!err) {
+                            callback(null, venue);
+                        } else {
+                            callback(err, null);
+                        }
+                    })
+                }
+            }, function(){
+                callback("No office match");
+            });
         });
+    } else {
+        callback("ID is NULL");
     }
 };
 
