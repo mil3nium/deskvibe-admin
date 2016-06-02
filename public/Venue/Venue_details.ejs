@@ -109,4 +109,8 @@
             counter++;
         });
     });
+
+    $('#listModal').on('hidden.bs.modal', function() {
+        $('#search_text').focus().select();
+    });
 </script>

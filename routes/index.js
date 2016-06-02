@@ -106,7 +106,7 @@ router.post('/saveSpace', function(req, res, next) {
             req.body.country, req.body.lat, req.body.lng, function(err, office) {
             if(!err) {
                 res.status(200).send('{"success" : "Added Successfully", "status" : 200}', office);
-                res.end();
+                res.end('{"success" : "Added Successfully", "status" : 200}');
             } else {
                 res.status(500).end(err, null);
             }

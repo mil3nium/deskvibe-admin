@@ -117,3 +117,18 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<script type="text/javascript">
+
+    $('#venueModal').on('hidden.bs.modal', function() {
+        if(venue_added) {
+            venue_added = false;
+            var html = new EJS({url: '/Venue/Venue_info.ejs'});
+            $('#main_content').html(html.render(html));
+        }
+    });
+
+    $('#listModal').on('hidden.bs.modal', function() {
+        $('#search_text').focus().select();
+    });
+</script>

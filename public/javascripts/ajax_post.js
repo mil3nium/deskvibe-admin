@@ -14,6 +14,8 @@ function getHours() {
     return JSON.stringify(hours);
 }
 
+var venue_added = false;
+
 function POST(url, data) {
     $.ajax({
         url: url,
@@ -22,17 +24,16 @@ function POST(url, data) {
         data: data,
         success: function(venue, msg) {
             venue_active = venue;
-            $('#listModal').modal('hide');
-            var html = new EJS({url: '/Venue/Venue_info.ejs'});
-            $('#main_content').html(html.render(html));
-            SUCCESS("Saved data");
+            venue_added = true;
+            $('#venueModal').modal('hide');
         },
         error: function(msg) {
             console.log(msg);
-            alert(msg.responseText);
         }
     });
 }
+
+
 
 function POST_FORM(url, data, callback) {
     $.ajax({
@@ -80,7 +81,7 @@ function submit_info(_id) {
 }
 
 function delete_venue(id) {
-    var conf = confirm("Are you sure you want to delete this : " + venue_active[id].name);
+    var conf = confirm("Are you sure you want to delete this : " + venue_list[id].name);
 
     if(conf == true) {
         $.ajax({
@@ -88,8 +89,10 @@ function delete_venue(id) {
             type: 'POST',
             dataType: 'json',
             data: {_id: venue_list[id]._id},
-            success: function() {
-                console.log("Success");
+            success: function(venue, msg) {
+                venue_list.splice(id, 1);
+                var html = new EJS({url: '/Venue/Venue_list.ejs'});
+                $('#main_content').html(html.render(html));
                 SUCCESS("Deleted venue : " + id);
             },
             error: function(msg) {
