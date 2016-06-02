@@ -16,19 +16,22 @@ function getHours() {
 
 var venue_added = false;
 
-function POST(url, data) {
+function POST(url, data, callback) {
     $.ajax({
         url: url,
         type: 'POST',
         dataType: 'json',
         data: data,
         success: function(venue, msg) {
-            venue_active = venue;
+            if(venue)
+                venue_active = venue;
+
             venue_added = true;
             $('#venueModal').modal('hide');
+            callback();
         },
         error: function(msg) {
-            console.log(msg);
+            callback();
         }
     });
 }
@@ -134,12 +137,21 @@ function submit_office(callback) {
 }
 
 function delete_office(id) {
-    var data = {
-        "_id": venue_active._id,
-        'office_id': id
-    };
 
-    POST('/deleteOffice', data);
+    var conf = confirm("Are you sure you want to delete this : " + venue_active.offices[id].type);
+
+    if(conf == true) {
+        var data = {
+            "_id": venue_active._id,
+            'office_id': venue_active.offices[id]._id
+        };
+
+        POST('/deleteOffice', data, function() {
+            venue_active.offices.splice(id, 1);
+            var html = new EJS({url: '/Venue/Venue_offices.ejs'});
+            $('#main_content').html(html.render(html));
+        });
+    }
 }
 
 function submit_amenities() {

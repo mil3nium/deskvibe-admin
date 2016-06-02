@@ -60,7 +60,8 @@ router.post('/deleteVenue', function(req, res, next) {
     if(req.body._id) {
         Spaces.deleteVenue(req.body._id, function(err) {
             if(!err) {
-                res.status(200).end('{"success" : "Added Successfully", "status" : 200}')
+                res.status(200).send('{"success" : "Added Successfully", "status" : 200}');
+                res.end();
             } else {
                 res.status(500).end(err);
             }
