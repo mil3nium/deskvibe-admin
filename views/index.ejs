@@ -16,7 +16,7 @@
         var tags = [];
         var offices = [];
         var venue_list = null;
-        var venue_active;
+        var venue_active = null;
         var amenities = [
                 "Wi-Fi",
                 "24/7",
@@ -119,7 +119,7 @@
     </div>
 
     <div class="col-sm-12">
-        <h1>DeskVibe venues</h1>
+        <h1 id="header">DeskVibe Venues</h1>
     </div>
 
     <div class="col-sm-12" id="main_content">
@@ -252,6 +252,8 @@
 
     $( document ).ready(function() {
 
+
+
         $.ajax({
             url: '/getVenues',
             type: 'GET',
@@ -315,6 +317,7 @@
                     venue_active = venue[0];
                     var html = new EJS({url: '/Venue/Venue_info.ejs'});
                     $('#main_content').html(html.render(html));
+                    $('#header').html("Active : " + venue_active.name);
                 },
                 error: function(msg) {
                     console.error( msg );
