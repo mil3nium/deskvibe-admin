@@ -1,0 +1,68 @@
+<h1>{{ activeVenue.name }}</h1>
+
+<form id="venue_form">
+
+    <!-- CONTACT INFO -->
+    <h2>Contact Info</h2>
+    <fieldset class="form-group row">
+        <label for="name" class="col-sm-2 form-control-label">Company name</label>
+
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="name" placeholder="DeskVibe" data-ng-model="activeVenue.name">
+        </div>
+    </fieldset>
+    <fieldset class="form-group row">
+        <label for="contact_name" class="col-sm-2 form-control-label">Contact name</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="contact_name" placeholder="Name" data-ng-model="activeVenue.contact.name">
+        </div>
+    </fieldset>
+    <fieldset class="form-group row">
+        <label for="contact_email" class="col-sm-2 form-control-label">Contact email</label>
+        <div class="col-sm-10">
+            <input type="email" class="form-control" id="contact_email" placeholder="Email" data-ng-model="activeVenue.contact.email">
+        </div>
+    </fieldset>
+    <fieldset class="form-group row">
+        <label for="Address" class="col-sm-2 form-control-label">Address</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="search_text" placeholder="Search address" >
+        </div>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" id="search_country" placeholder="Country" data-ng-model="defaultCountry">
+        </div>
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-primary" id="search">Search</button>
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-4">
+            <input disabled type="text" class="form-control" id="street" placeholder="Address" data-ng-model="activeVenue.location.street">
+        </div>
+        <div class="col-sm-2">
+            <input disabled type="text" class="form-control" id="street_number" placeholder="Number" data-ng-model="activeVenue.location.street_number">
+        </div>
+
+        <div class="col-sm-2">
+            <input disabled type="number" class="form-control" id="postal_code" placeholder="Post number" data-ng-model="activeVenue.location.postal_code">
+        </div>
+        <div class="col-sm-2">
+            <input disabled type="text" class="form-control" id="postal_town" placeholder="City" data-ng-model="activeVenue.location.postal_town">
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-2">
+            <input disabled type="text" class="form-control" id="county" placeholder="County" data-ng-model="activeVenue.location.county">
+        </div>
+        <div class="col-sm-2">
+            <input disabled type="text" class="form-control" id="state" placeholder="State" data-ng-model="activeVenue.state">
+        </div>
+        <div class="col-sm-2">
+            <input disabled type="text" class="form-control" id="country" placeholder="Country" data-ng-model="activeVenue.location.country">
+        </div>
+        <div class="col-sm-2">
+            <input disabled type="text" class="form-control" id="lat" placeholder="Latitude" data-ng-model="activeVenue.location.lat">
+        </div>
+        <div class="col-sm-2">
+            <input disabled type="text" class="form-control" id="lng" placeholder="Longitude" data-ng-model="activeVenue.location.lng">
+        </div>
+    </fieldset>
+</form>

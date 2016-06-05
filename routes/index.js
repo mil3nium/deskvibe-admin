@@ -71,6 +71,10 @@ router.post('/deleteVenue', function(req, res, next) {
     }
 });
 
+router.get('/getTemplate', function(req, res, next) {
+    res.status(200).send(Spaces.getTemplate())
+})
+
 router.post('/getVenue', function(req, res, next) {
     if(req.body._id) {
         Spaces.getVenues(req.body._id, function(err, venue) {
@@ -82,7 +86,7 @@ router.post('/getVenue', function(req, res, next) {
             }
         })
     }
-})
+});
 
 router.get('/getVenues', function(req, res, next) {
     Spaces.getVenues(null, function(err, venues) {
@@ -94,6 +98,19 @@ router.get('/getVenues', function(req, res, next) {
         }
     });
 });
+
+router.post('/saveVenue', function(req, res, next) {
+    if(req.body.venue) {
+        Spaces.saveVenue(req.body.venue, function(err, venue) {
+            if(!err) {
+                res.status(200).end(venue);
+            } else {
+                console.error(err);
+                res.status(500).end("Could not save data to Database");
+            }
+        });
+    }
+})
 
 router.post('/saveSpace', function(req, res, next) {
 

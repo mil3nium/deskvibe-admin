@@ -1,0 +1,63 @@
+<form id="venue_form">
+    <fieldset class="form-group row">
+        <label for="name" class="col-sm-2 form-control-label">Company name</label>
+
+        <div class="col-sm-10">
+            <input type="text" class="form-control" data-ng-model="venue.name" placeholder="DeskVibe" >
+        </div>
+    </fieldset>
+    <fieldset class="form-group row">
+        <label for="contact_name" class="col-sm-2 form-control-label">Name</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" data-ng-model="venue.contact.name" placeholder="Name" >
+        </div>
+    </fieldset>
+    <fieldset class="form-group row">
+        <label for="contact_email" class="col-sm-2 form-control-label">Email</label>
+        <div class="col-sm-10">
+            <input type="email" class="form-control" data-ng-model="venue.contact.email" placeholder="Email" >
+        </div>
+    </fieldset>
+    <fieldset class="form-group row">
+        <label for="Address" class="col-sm-2 form-control-label">Address</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" placeholder="Search address" data-ng-model="SearchAddress">
+        </div>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" placeholder="Country" value="Norway">
+        </div>
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-primary" data-ng-model="search" data-ng-click="getGoogleData(SearchAddress)">Search</button>
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-4">
+            <input disabled type="text" class="form-control" data-ng-model="venue.street" placeholder="Address" >
+        </div>
+        <div class="col-sm-2">
+            <input disabled type="text" class="form-control" data-ng-model="venue.street_number" placeholder="Number">
+        </div>
+
+        <div class="col-sm-2">
+            <input disabled type="number" class="form-control" data-ng-model="venue.postal_code" placeholder="Post number" >
+        </div>
+        <div class="col-sm-2">
+            <input disabled type="text" class="form-control" data-ng-model="venue.postal_town" placeholder="City" >
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-2">
+            <input disabled type="text" class="form-control" data-ng-model="venue.county" placeholder="County" >
+        </div>
+        <div class="col-sm-2">
+            <input disabled type="text" class="form-control" data-ng-model="venue.state" placeholder="State" >
+        </div>
+        <div class="col-sm-2">
+            <input disabled type="text" class="form-control" data-ng-model="venue.country" placeholder="Country" >
+        </div>
+        <div class="col-sm-2">
+            <input disabled type="text" class="form-control" data-ng-model="venue.lat" placeholder="Latitude" >
+        </div>
+        <div class="col-sm-2">
+            <input disabled type="text" class="form-control" data-ng-model="venue.lng" placeholder="Longitude">
+        </div>
+    </fieldset>
+</form>

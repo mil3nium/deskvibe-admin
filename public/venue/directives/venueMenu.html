@@ -1,0 +1,22 @@
+<nav class="navbar navbar-light navbar-fixed-bottom" style="background-color: #fc6f70">
+    <div class="container">
+        <ul class="nav navbar-nav">
+            <li><a data-ng-href="#/"><i class="fa fa-home"></i> List</a></li>
+        </ul>
+        <ul class="nav navbar-nav">
+            <li><a data-ng-href="#/venue/{{ activeVenueId }}"><i class="fa fa-home"></i> Info</a></li>
+        </ul>
+        <ul class="nav navbar-nav">
+            <li><a data-ng-href="#/venue/{{ activeVenueId }}/details"><i class="fa"></i> Details</a></li>
+        </ul>
+        <ul class="nav navbar-nav">
+            <li><a data-ng-href="#/venue/{{ activeVenueId }}/offices"><i class="fa fa-home"></i> Offices</a></li>
+        </ul>
+        <ul class="nav navbar-nav">
+            <li><a data-ng-href="#/venue/{{ activeVenueId }}/goodies"><i class="fa fa-home"></i> Goodies</a></li>
+        </ul>
+        <ul class="nav navbar-nav">
+            <li><a href="" data-ng-click="saveActiveVenue()"><i class="fa fa-home"></i> SaveVenue</a></li>
+        </ul>
+    </div>
+</nav>

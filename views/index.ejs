@@ -1,378 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Required meta tags always come first -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css"
-          integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
-
-    <script type="text/javascript">
-        var apiKey = "AIzaSyCmNSL6HgFcjoxc9ae8CUy0auroSoYypzM";
-        var tags = [];
-        var offices = [];
-        var venue_list = null;
-        var venue_active = null;
-        var amenities = [
-                "Wi-Fi",
-                "24/7",
-                "Coffee/tea",
-                "Meeting rooms",
-                "Shared Kitchen",
-                "Air condition",
-                "Lockers",
-                "Pets",
-                "Wheelchair accessible"
-        ];
-    </script>
-
-    <style>
-
-        input[type=number]::-webkit-inner-spin-button,
-        input[type=number]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        h1 {
-            margin: 50px;
-            text-align: center;
-        }
-
-        h2 {
-            margin-top: 50px;
-            text-align: center;
-        }
-
-        #search, #addVenue {
-            width: 100%;
-        }
-
-        #submit {
-            height: 55px;
-            float: right;
-        }
-
-        .tag {
-            font-size: 13px;
-            border: 1px grey solid;
-            padding: 4px;
-            border-radius: 7px;
-            margin: 0 2px;
-        }
-
-        .days_open {
-            margin: 10px 0;
-            width: 100%;
-            height: 40px;
-        }
-
-        .day_open {
-            display: block;
-            float: left;
-            width: 150px;
-        }
-
-        .hours_open, .hours_closed {
-            display: block;
-            width: 30%;
-            float: left;
-        }
-
-        .amenities {
-            margin-right: 5px;
-        }
-
-
-    </style>
-    <script type="text/javascript">
-
-    </script>
-</head>
-<body>
-<!-- Auth -->
-
-<div class="container">
-
-    <div id="venue_menu col-sm-12">
-        <ul class="nav navbar-nav">
-            <li class="nav-item active">
-                <button class="nav-link btn btn-primary venue_menu" value="/Venue/Venue_list.ejs">Venue List</button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link btn btn-primary venue_menu" value="/Venue/Venue_info.ejs">Venue info</button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link btn btn-primary venue_menu"  value="/Venue/Venue_details.ejs">Details</button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link btn btn-primary venue_menu"  value="/Venue/Venue_offices.ejs">Office</button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link btn btn-primary venue_menu"  value="/Venue/Venue_Amenities_tags.ejs">Amenities / Tags</button>
-            </li>
-        </ul>
-    </div>
-
-    <div class="col-sm-12">
-        <h1 id="header">DeskVibe Venues</h1>
-    </div>
-
-    <div class="col-sm-12" id="main_content">
-
-    </div>
-    <div class="col-sm-12 alert alert-success" style="display: none;" role="alert" id="message-success">
-
-    </div>
-    <div class="col-sm-12 alert alert-warning" style="display: none;" role="alert" id="message-warning">
-
-    </div>
-</div>
-
-
-
-<!-- jQuery first, then Bootstrap JS. -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"
-        integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7"
-        crossorigin="anonymous"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<!--<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>-->
-<script src="javascripts/GoogleApi.js"></script>
-<script type="text/javascript" src="/javascripts/ejs_production.js"></script>
-
-
-<script type="text/javascript">
-    var addressList = null;
-
-    function SUCCESS(msg) {
-        $('#message-success').show().html("<strong>" + msg + "</strong>").fadeOut(3000);
-    }
-
-    function WARNING(msg) {
-        $('#message-warning').show().html("<strong>" + msg + "</strong>").fadeOut(5000);
-    }
-
-    function ERROR(msg) {
-        $('#message-warning').show().html("<strong>" + msg + "</strong>").fadeOut(5000);
-    }
-
-
-    function validateEmail(email) {
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email);
-    }
-
-    function createResultList(id, address) {
-        return '<tr><th scope="row">' + id + '</th><td>' + address + '</td></tr>';
-    }
-
-    function printGoogleData(id) {
-
-        var place = addressList[id];
-
-        $.each( place.address_components, function(i, data) {
-            switch (data.types[0]) {
-                case 'street_number': $('#street_number').val(data.long_name); break;
-                case 'route': $('#street').val(data.long_name); break;
-                case 'postal_town': $('#postal_town').val(data.long_name); break;
-                case 'postal_code': $('#postal_code').val(data.long_name); break;
-                case 'administrative_area_level_1': $('#state').val(data.long_name); break;
-                case 'administrative_area_level_2': $('#county').val(data.long_name); break;
-                case 'country': $('#country').val(data.long_name); break;
-            }
-        });
-        $('#lat').val(place.geometry.location.lat);
-        $('#lng').val(place.geometry.location.lng);
-
-        $('#listModal').modal('hide');
-    }
-
-    function createVenueCard(i, data) {
-
-        var html = '<div class="card col-sm-4">' +
-                        '<img class="card-img-top" src="#" alt="Card image cap">' +
-                            '<div class="card-block">' +
-                            '<p class="card-text">' +
-                            "Type: " + data.type + ' <br> ' +
-                            "Description: " + data.description + ' <br> ' +
-                            "Daily: " + data.day + ' <br> ' +
-                            "Weekly: " + data.week + ' <br> ' +
-                            "Monthly: " + data.month + '</p>' +
-                            '<button type="button" class="btn btn-primary" id="edit_office" data-id="'+ i +'" data-toggle="modal" data-target="#officeModal">Edit</button>' +
-                            '<button type="button" class="btn btn-danger" id="delete_office" data-id="'+ i +'">Delete</button>' +
-                        '</div>' +
-                    '</div>';
-        return html;
-    }
-
-    function getAmenities() {
-        var amenities = [];
-        $('#amenities_list input:checked').each(function() {
-            amenities.push($(this).attr('value'));
-        });
-        return amenities;
-    }
-
-    function addTag(tag) {
-        if(tag == "") return;
-        $('#tag_list').append('<span class="tag">' + tag + '</span>');
-        $('#tag').val("");
-        tags.push(tag);
-    }
-
-    function add_office() {
-        submit_office(function() {
-            var html = "";
-            $.each( venue_active.offices, function(i, data) {
-                html += createVenueCard(i, data);
-            });
-
-            $('#main_content #venue_list').html(html);
-
-            $('#officeModal').modal('hide');
-        });
-    }
-
-    function populate_office_modal(id){
-        $('#office_id').val(venue_active.offices[id]._id);
-        $('#office_type').val(venue_active.offices[id].type);
-        $('#office_seats').val(venue_active.offices[id].seats);
-        $('#office_description').val(venue_active.offices[id].description);
-        $('#office_price_day').val(venue_active.offices[id].day);
-        $('#office_price_week').val(venue_active.offices[id].week);
-        $('#office_price_month').val(venue_active.offices[id].month);
-
-    }
-
-    $( document ).ready(function() {
-
-
-
-        $.ajax({
-            url: '/getVenues',
-            type: 'GET',
-            dataType: 'json',
-            success: function(venues) {
-                venue_list = venues;
-                var html = new EJS({url: '/Venue/Venue_list.ejs'});
-                $('#main_content').html(html.render(html));
-            },
-            error: function(msg) {
-               var html = new EJS({url: '/Venue/Venue_list.ejs'});
-               $('#main_content').html(html.render(html));
-            }
-        });
-
-
-        /**
-         * Venue Modal
-         */
-
-        $('#listModal').on('hidden.bs.modal', function() {
-            $('#search_text').focus().select();
-        });
-
-
-
-
-        /**
-         * CLICK EVENTS
-         */
-
-        $('#main_content').on('click', 'button', function() {
-            switch ($(this).attr('id')) {
-                case 'submit_info': submit_info(venue_active._id); break;
-                case 'submit_details': submit_details(); break;
-                case 'submit_A_T': submit_amenities(); break;
-                case 'search': GetData(); break;
-                case 'add_tag': addTag($('#tag').val()); break;
-                case 'venue_add': submit_info(""); break;
-                case 'venue_remove': delete_venue($(this).attr('value')); break;
-                case 'venue_add_office': add_office(); break;
-                case 'edit_office': populate_office_modal($(this).attr('data-id')); break;
-                case 'delete_office': delete_office($(this).attr('data-id')); break;
-            }
-        });
-
-        $('.venue_menu').on('click', function() {
-            if(venue_active) {
-                var html = new EJS({url: $(this).attr('value')});
-                $('#main_content').html(html.render(html));
-            }
-        });
-
-        $('#main_content').on('click', '#venue_list li', function() {
-            $.ajax({
-                url: '/getVenue',
-                type: 'POST',
-                dataType: 'json',
-                data: {_id: $(this).attr('value')},
-                success: function(venue) {
-                    venue_active = venue[0];
-                    var html = new EJS({url: '/Venue/Venue_info.ejs'});
-                    $('#main_content').html(html.render(html));
-                    $('#header').html("Active : " + venue_active.name);
-                },
-                error: function(msg) {
-                    console.error( msg );
-                }
-            })
-        });
-
-        $('#main_content').on('click', '.tag', function() {
-            var value = $(this).text();
-            $.each(tags, function(i, tag) {
-                if(tag == value) {
-                    tags.splice(i, 1);
-                }
-            });
-            $(this).hide();
-        });
-
-        $('#main_content').on('click', '#modal-table tr', function() {
-            printGoogleData($(this).children()[0].innerHTML);
-        });
-
-        $('.hours_open').change(function(event) {
-            alert("Change");
-        });
-
-        /**
-         * KEYPRESS EVENTS
-         */
-
-        $('#main_content').on('keypress', '#search_text', function(e) {
-            if(e.which == 13) {
-                GetData();
-            }
-        });
-
-        $('#main_content').on('keypress', '#tag', function(e) {
-            if(e.which == 13) {
-                e.preventDefault();
-                addTag($('#tag').val());
-            }
-        });
-
-        $(document).keypress(function(e) {
-            if(e.which >= 48 && e.which <= 57) {
-                if($('#listModal').is(':visible')) {
-                    printGoogleData(e.which - 48);
-                }
-            }
-        });
-    });
-
-</script>
-
-<script type="text/javascript" src="/javascripts/ajax_post.js"></script>
-
-</body>
+<html lang="en-us" ng-app="myApp">
+    <head>
+        <title>AngularJS</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta charset="UTF-8">
+
+        <!-- CSS and bootstrap, fontawesome via CDN -->
+        <link rel="stylesheet" type='text/css' href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+        <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Source+Sans+Pro'  >
+        <link rel="stylesheet" type='text/css' href="stylesheets/style.css" />
+        <link rel="stylesheet" type='text/css' href="stylesheets/venue.css" />
+        
+        <!-- load angular via CDN -->
+        <script src="javascripts/angular.js"></script>
+        <script src="javascripts/angular-route.js"></script>
+        
+        <!-- Angular App -->
+        <script src="ngConfig.js"></script>
+        
+        <!-- Services -->
+        <script src="venue/venueService.js"></script>
+        
+        <!-- Controllers -->
+        <script src="controllers/mainController.js"></script>
+        <script src="venue/venueController.js"></script>
+        <script src="venue/venueDirectives.js"></script>
+        <script src="events/eventDirectives.js"></script>
+        
+    </head>
+    <body data-ng-controller="venueController">
+
+        <header>
+			<nav class="navbar navbar-dark bg-primary">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#/">Venues</a>
+                    </div>
+
+                    <ul class="nav navbar-nav">
+                        <li><a href="#/"><i class="fa fa-home"></i> Nowhere</a></li>
+                    </ul>
+                </div>
+			</nav>
+		</header>
+
+        <div class="container">
+
+            <div ng-view></div>
+            
+		</div>
+        
+        <div class="container">
+            <footer>
+                <venue-menu
+                           active-venue-id="{{ activeVenueId }}"
+                            saveActiveVenue="{{ saveActiveVenue }}">
+                </venue-menu>
+            </footer>
+        </div>
+    </body>
 </html>
-

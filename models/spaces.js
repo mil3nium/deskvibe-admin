@@ -50,6 +50,21 @@ var Office = new Schema({
 var Spaces = mongoose.model('Spaces', Venues);
 var Offices = mongoose.model('Office', Office);
 
+exports.getTemplate = function() {
+    var space = new Spaces();
+    space.type = "";
+    space.expertise = "";
+    space.sqm = 0;
+    space.description = "";
+    space.state = "";
+    space.name = "";
+    space.contact.name = "";
+    space.contact.email = "";
+    space.location = "";
+    space.open_hours = Empty_hours();
+    return space;
+}
+
 exports.deleteVenue = function(_id, callback) {
     Spaces.remove({_id: _id}, function(err) {
         if(!err) {
@@ -75,16 +90,29 @@ exports.getVenues = function(id, callback) {
                 var spaceMap = [];
 
                 spaces.forEach(function(space) {
-                    spaceMap.push({_id: space._id, name: space.name});
+                    spaceMap.push({_id: space._id, name: space.name, description: space.description});
                 });
 
-                callback(null, spaceMap);
+                callback(null, spaces);
             } else {
                 callback(err, null);
             }
         })
     }
 };
+
+exports.saveVenue = function(venue, callback) {
+    if(venue._id != "") {
+        Spaces.findOneAndUpdate({_id: venue._id}, venue, {overwrite: true, upsert: true}, function(err, updatedVenue) {
+            if(!err) {
+                if(updatedVenue)
+                    callback();
+            } else {
+                callback(err);
+            }
+        })
+    }
+}
 
 exports.addSpace = function(_id, state, name, contact_name, contact_email, street, street_number, postal_code, postal_town,
                             county, country, lat, lng, callback) {
