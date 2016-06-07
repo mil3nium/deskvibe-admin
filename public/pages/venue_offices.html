@@ -1,2 +1,14 @@
 <h1>Offices</h1>
 
+<a href="#/venue/{{ activeVenue._id }}/offices/add" class="btn btn-success col-sm-12" >Add office</a>
+
+<div id="office_list">
+    
+    <a venue-office-list 
+        data-ng-repeat="office in activeVenue.offices"
+        data-ng-href=""
+        data-ng-click="updateOffice($index)"
+       office="office">
+    </a>
+       
+</div>

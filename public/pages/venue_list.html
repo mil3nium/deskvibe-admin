@@ -1,64 +1,18 @@
-<input type="text" class="form-control" data-ng-model="searchString" />
 
-<br />
 <a data-ng-href="#/venue/add" class="btn btn-success col-sm-12" >Add venue</a>
 
+<br />
+
 <h3>Search results</h3>
+<input type="text" class="form-control" placeholder="Searchstring" data-ng-model="searchString" />
 <div class="list-group">
     <venue-search-results 
-        data-ng-repeat="venue in venues"
+        data-ng-repeat="venue in venues | filter:searchString"
         data-ng-click="setActiveVenue(venue._id)"
         venue-id="{{ venue._id }}"
         venue-name="{{ venue.name }}"
-        venue-description="{{ venue.description }}">
+        venue-description="{{ venue.location.formated_address }}">
     </venue-search-results>
 </div>
 
-<div class="modal fade" id="venueModal">
-    <div class="modal-dialog" role="list">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title">Add venue</h4>
-            </div>
-            <div class="modal-body">
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="venue_add">Add venue</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-
-<div class="modal fade" id="listModal">
-    <div class="modal-dialog" role="list">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title">Search list</h4>
-            </div>
-            <div class="modal-body">
-                <table class="table table-hover" id="modal-table">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Address</th>
-                    </tr>
-                    </thead>
-                    <tbody id="search-results">
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->

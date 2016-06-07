@@ -1,0 +1,43 @@
+<form class="venue-form" id="office_form">    
+    <fieldset class="form-group row">
+        <label for="venue_type" class="col-sm-2 form-control-label">Type</label>
+        <div class="col-sm-10">
+            <select data-ng-model="office.type" class="form-control">
+                <option>Open space</option>
+                <option>Flex-/fixed desk</option>
+                <option>Closed office</option>
+                <option>Meeting room</option>
+            </select>
+        </div>
+    </fieldset>
+    <fieldset class="form-group row">
+        <label for="venue_type" class="col-sm-2 form-control-label">Seats</label>
+        <div class="col-sm-10">
+            <input type="number" class="form-control" data-ng-model="office.seats">
+        </div>
+    </fieldset>
+    <fieldset class="form-group row">
+        <label for="venue_type" class="col-sm-2 form-control-label">Details</label>
+        <div class="col-sm-10">
+            <textarea type="text" data-ng-model="office.description" class="form-control"></textarea>
+        </div>
+    </fieldset>
+    <fieldset class="form-group row">
+        <label for="venue_price" class="col-sm-2 form-control-label">Prices</label>
+        <div class="col-sm-2"></div>
+        <div class="input-group col-sm-10">
+            <span class="input-group-addon">Day</span>
+            <input type="number" data-ng-model="office.day" class="form-control" placeholder="eg. 100">
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="input-group col-sm-10">
+            <span class="input-group-addon">Week</span>
+            <input type="number" data-ng-model="office.week" class="form-control" placeholder="eg. 500">
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="input-group col-sm-10">
+            <span class="input-group-addon">Month</span>
+            <input type="number" data-ng-model="office.month" class="form-control" placeholder="eg. 2000">
+        </div>
+    </fieldset>
+</form>

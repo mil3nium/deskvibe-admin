@@ -23,9 +23,10 @@ var Venues = new Schema({
     type: String,
     sqm: Number,
     description: String,
-    open_hours: [{_id: false, open: Boolean, start: String, end: String}],
+    open_hours: [{_id: false, open: Boolean, day: String, start: String, end: String}],
     amenities: [],
     location: {
+        formated_address: String,
         street: String,
         street_number: Number,
         postal_code: Number,
@@ -60,8 +61,30 @@ exports.getTemplate = function() {
     space.name = "";
     space.contact.name = "";
     space.contact.email = "";
-    space.location = "";
+    space.location = {
+        formated_address: "",
+        street: "",
+        street_number: "",
+        postal_code: 0,
+        postal_town: "",
+        county: "",
+        country: "",
+        lat: 0,
+        lng: 0
+    };
     space.open_hours = Empty_hours();
+    space.offices = new Offices();
+    space.amenities = [
+        "Wi-Fi",
+        "24/7",
+        "Coffee/tea",
+        "Meeting rooms",
+        "Shared Kitchen",
+        "Air condition",
+        "Lockers",
+        "Pets",
+        "Wheelchair accessible"
+    ]
     return space;
 }
 
@@ -281,9 +304,10 @@ exports.deleteOffice = function(_id, office_id, callback) {
 };
 
 function Empty_hours() {
+    var days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     var data = [];
     for(var i = 0; i < 7; i++) {
-        data.push( {open: false, start: "0:00", end: "0:00"} );
+        data.push( {open: false, day: days[i], start: "00:00", end: "00:00"} );
     }
     return data;
 }

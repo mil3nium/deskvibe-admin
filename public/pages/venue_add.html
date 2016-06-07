@@ -2,5 +2,9 @@
 
 <a data-ng-href="#/" class='btn btn-warning col-sm-12' >Back to list</a>
 
-<venue-details class="col-sm-12"
-               venue="{{ emptyVenue }}"></venue-details>
+<venue-info class="col-sm-12"
+               venue="emptyVenue"
+                get-google-data-function="getGoogleData(address)">
+</venue-info>
+
+

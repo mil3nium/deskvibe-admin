@@ -12,3 +12,8 @@ footer a {
     color: #000000;
     font-size: 20px;
 }
+
+.card-office {
+    background-color: lightgrey;
+    border: 1px solid black;
+}

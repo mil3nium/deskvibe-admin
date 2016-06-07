@@ -1,14 +1,19 @@
 myApp.directive('venueMenu', function() {
     return {
         templateUrl: 'venue/directives/venueMenu.html',
-        replace: true
+        replace: true,
     }
 });
 
-myApp.directive('venueDetails', function() {
+myApp.directive('venueInfo', function() {
     return {
-        templateUrl: 'venue/directives/venueDetails.html',
-        replace: true
+        templateUrl: 'venue/directives/venueInfo.html',
+        replace: true,
+        scope: {
+            venue: '=',
+            getGoogleDataFunction: '&'
+        },
+        transclude: true
     }
 });
 
@@ -26,6 +31,49 @@ myApp.directive('venueSearchResults', function() {
         }
     }
 });
+
+/**
+*   ========== DETAILS =============
+**/
+
+myApp.directive('venueOpenHours', function() {
+    return {
+        templateUrl: 'venue/directives/venueOpenHours.html',
+        replace: true,
+        scope: {
+            recursiveDay: '@',
+            day: '='
+        }
+    }
+})
+
+/**
+*   ========== OFFICES =============
+**/
+
+myApp.directive('venueOfficeAdd', function() {
+    return {
+        templateUrl: 'venue/directives/venueOfficeAdd.html',
+        replace: true,
+        scope: {
+            office: '='
+        }
+    }
+})
+
+myApp.directive('venueOfficeList', function() {
+    return {
+        templateUrl: 'venue/directives/venueOfficeList.html',
+        scope: {
+            office: '='
+        }
+    }
+})
+
+
+/**
+*   ========== GOODIES =============
+**/
 
 myApp.directive('venueTagList', function() {
     return {
@@ -46,3 +94,4 @@ myApp.directive('venueGoodiesList', function() {
         }
     }
 })
+
