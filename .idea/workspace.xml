@@ -1,27 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="39a11797-7e70-4b8c-aa15-8c4f0d640195" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/controllers/mainController.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/events/eventDirectives.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/javascripts/GoogleApi.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/javascripts/ajax_post.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/javascripts/ejs_production.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/venue/directives/venueDetails.html" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/spaces.js" afterPath="$PROJECT_DIR$/models/spaces.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/ngConfig.js" afterPath="$PROJECT_DIR$/public/ngConfig.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/pages/venue_add.html" afterPath="$PROJECT_DIR$/public/pages/venue_add.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/pages/venue_details.html" afterPath="$PROJECT_DIR$/public/pages/venue_details.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/pages/venue_info.html" afterPath="$PROJECT_DIR$/public/pages/venue_info.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/pages/venue_list.html" afterPath="$PROJECT_DIR$/public/pages/venue_list.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/venue/directives/venueSearchResult.html" afterPath="$PROJECT_DIR$/public/venue/directives/venueSearchResult.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/venue/venueController.js" afterPath="$PROJECT_DIR$/public/venue/venueController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/venue/venueDirectives.js" afterPath="$PROJECT_DIR$/public/venue/venueDirectives.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/venue/venueService.js" afterPath="$PROJECT_DIR$/public/venue/venueService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.ejs" afterPath="$PROJECT_DIR$/views/index.ejs" />
-    </list>
+    <list default="true" id="39a11797-7e70-4b8c-aa15-8c4f0d640195" name="Default" comment="" />
     <ignored path="DeskVibe.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -44,8 +24,8 @@
       <file leaf-file-name="spaces.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/spaces.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3079">
-              <caret line="76" column="1" selection-start-line="76" selection-start-column="1" selection-end-line="76" selection-end-column="1" />
+            <state relative-caret-position="-3048">
+              <caret line="89" column="0" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -71,8 +51,8 @@
       <file leaf-file-name="index.ejs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/index.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="969">
-              <caret line="57" column="7" selection-start-line="57" selection-start-column="7" selection-end-line="57" selection-end-column="7" />
+            <state relative-caret-position="1224">
+              <caret line="72" column="7" selection-start-line="72" selection-start-column="7" selection-end-line="72" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -343,12 +323,12 @@
       <workItem from="1465070675089" duration="2039000" />
       <workItem from="1465120405485" duration="2683000" />
       <workItem from="1465134700344" duration="2117000" />
-      <workItem from="1465328272302" duration="1605000" />
+      <workItem from="1465328272302" duration="2204000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="147601000" />
+    <option name="totallyTimeSpent" value="148200000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -360,7 +340,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -627,8 +607,8 @@
     <entry file="file://$PROJECT_DIR$/public/Venue/Venue_Amenities_tags.ejs" />
     <entry file="file://$PROJECT_DIR$/views/index.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="969">
-          <caret line="57" column="7" selection-start-line="57" selection-start-column="7" selection-end-line="57" selection-end-column="7" />
+        <state relative-caret-position="1224">
+          <caret line="72" column="7" selection-start-line="72" selection-start-column="7" selection-end-line="72" selection-end-column="7" />
           <folding />
         </state>
       </provider>
@@ -643,8 +623,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/spaces.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3079">
-          <caret line="76" column="1" selection-start-line="76" selection-start-column="1" selection-end-line="76" selection-end-column="1" />
+        <state relative-caret-position="-3048">
+          <caret line="89" column="0" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
           <folding />
         </state>
       </provider>
