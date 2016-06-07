@@ -60,9 +60,8 @@ app.use('/', routes);
 /**
  * Mongoose database path.
  */
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/test');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/test');
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
-
 
 
 /**
