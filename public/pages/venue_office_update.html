@@ -2,6 +2,9 @@
 
 <a href="#/venue/{{ activeVenue._id }}/offices" class="btn btn-success col-sm-12">Save Offices</a>
 <a href="javascript:history.back()" class="btn btn-warning col-sm-12">Go back</a>
+<button type="button" class="btn btn-danger col-sm-12" 
+        data-ng-click="removeActiveOffice()"
+        data-ng-confirm-click="Are you sure you want to delete {{ activeVenue.offices[activeOffice].type }}">Delete Office</button>
 
 <div class="col-sm-12">
     <venue-office-add office="activeVenue.offices[activeOffice]">

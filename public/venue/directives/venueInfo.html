@@ -1,22 +1,22 @@
 <div class="venue-info">
-    <form id="venue_form">
+    <form name="venueForm">
         <fieldset class="form-group row">
             <label for="name" class="col-sm-2 form-control-label">Company name</label>
 
             <div class="col-sm-10">
-                <input type="text" class="form-control" data-ng-model="venue.name" placeholder="DeskVibe" >
+                <input type="text" class="form-control" data-ng-model="venue.name" placeholder="DeskVibe" name="input" required>
             </div>
         </fieldset>
         <fieldset class="form-group row">
             <label for="contact_name" class="col-sm-2 form-control-label">Name</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" data-ng-model="venue.contact.name" placeholder="Name" >
+                <input type="text" class="form-control" data-ng-model="venue.contact.name" placeholder="Name" name="input" required>
             </div>
         </fieldset>
         <fieldset class="form-group row">
             <label for="contact_email" class="col-sm-2 form-control-label">Email</label>
             <div class="col-sm-10">
-                <input type="email" class="form-control" data-ng-model="venue.contact.email" placeholder="Email" >
+                <input type="email" class="form-control" name="input" data-ng-model="venue.contact.email" placeholder="Email" required>
             </div>
         </fieldset>
         <fieldset class="form-group row">
@@ -43,7 +43,7 @@
             </div>
             <div class="col-sm-2"></div>
             <div class="col-sm-4">
-                <input disabled type="text" class="form-control" data-ng-model="venue.location.street" placeholder="Address" >
+                <input disabled type="text" class="form-control" data-ng-model="venue.location.street" placeholder="Address" name="input" required>
             </div>
             <div class="col-sm-2">
                 <input disabled type="text" class="form-control" data-ng-model="venue.location.street_number" placeholder="Number">
@@ -60,7 +60,7 @@
                 <input disabled type="text" class="form-control" data-ng-model="venue.location.county" placeholder="County" >
             </div>
             <div class="col-sm-2">
-                <input disabled type="text" class="form-control" data-ng-model="venue.state" placeholder="State" >
+                <input disabled type="text" class="form-control" data-ng-model="venue.state" placeholder="State" name="input" required>
             </div>
             <div class="col-sm-2">
                 <input disabled type="text" class="form-control" data-ng-model="venue.location.country" placeholder="Country" >
@@ -71,6 +71,16 @@
             <div class="col-sm-2">
                 <input disabled type="text" class="form-control" data-ng-model="venue.location.lng" placeholder="Longitude">
             </div>
+            <div class="col-sm-12"><hr /></div>
+            <div role="alert">
+                <span class="alert alert-warning" data-ng-show="venueForm.input.$error.required">
+                    Please fill in all fields
+                </span>
+                <span class="alert alert-warning" data-ng-show="venueForm.input.$error.email">
+                    Email is not the correct format
+                </span>
+            </div>
         </fieldset>
     </form>
+    
 </div>

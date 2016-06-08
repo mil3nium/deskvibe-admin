@@ -29,9 +29,9 @@ router.get('/', function(req, res, next) {
 router.post('/getGoogleData', function(req, res, next) {
 
     if(req.body.googleAddress) {
-        var address = req.body.googleAddress.replace("æ", "ae");
-        address = address.replace("ø", "o");
-        address = address.replace("å", "a");
+        var address = req.body.googleAddress.replace(/æ/gi, "ae");
+        address = address.replace(/ø/gi, "o");
+        address = address.replace(/å/gi, "a");
         var options = {
             proxy: process.env.QUOTAGUARDSTATIC_URL,
             url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&language=en&key" + googleApiKey,
@@ -60,7 +60,7 @@ router.post('/deleteVenue', function(req, res, next) {
     if(req.body._id) {
         Spaces.deleteVenue(req.body._id, function(err) {
             if(!err) {
-                res.status(200).send('{"success" : "Added Successfully", "status" : 200}');
+                res.status(200).send('{"success" : "Removed Successfully", "status" : 200}');
                 res.end();
             } else {
                 res.status(500).end(err);

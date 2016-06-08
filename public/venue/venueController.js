@@ -9,7 +9,6 @@ myApp.controller('venueController', ['$scope', '$log', '$location', '$http', fun
     $scope.activeVenue = null;
     $scope.venues;
     $scope.emptyVenue = null;
-    $scope.tag = '';
     $scope.saveActiveVenue = false;
     $scope.SearchAddress = "";
     
@@ -26,6 +25,47 @@ myApp.controller('venueController', ['$scope', '$log', '$location', '$http', fun
             $location.path('');
     });
     
+    /*
+    * =============== VENUE LIST =============================
+    */ 
+    
+    $scope.addVenue = function() {
+        $scope.venues.push($scope.emptyVenue);
+        $http.post('/saveVenue', {venue: $scope.emptyVenue})
+            .success(function(data, status, headers, config) {
+                if(status === 200) {
+                    $scope.emptyVenue = __emptyVenue;
+                    $log.info("Venue saved: " + data);
+                }
+            });
+        $location.path('');
+    }
+    
+    $scope.removeActiveVenue = function() {
+        var index = $scope.venues.indexOf($scope.activeVenue);
+        if(index != -1) {
+            $log.debug("Deleting venue : " + $scope.activeVenue.name + " ... ")
+            $http.post('/deleteVenue', {_id: $scope.activeVenue._id})
+            .success( function(data, status, headers, config) {
+                $scope.venues.splice(index, 1);
+                $scope.activeVenue = null;
+                $location.path('');
+                $scope.saveActiveVenue();
+                $log.debug("Deleted venue");
+            } )
+        }
+    }
+
+    $scope.setActiveVenue = function(id) {
+        $scope.activeVenueId = id;
+    }
+    
+    
+    
+    /*
+    * =============== WATCHERS =============================
+    */ 
+    
     $scope.$watch('activeVenueId', function(){
         $log.info($scope.activeVenueId);
         angular.forEach($scope.venues, function(val, key) {
@@ -41,30 +81,12 @@ myApp.controller('venueController', ['$scope', '$log', '$location', '$http', fun
             updateVenue = true;
         }
     }, true)
-    
-    $scope.addVenue = function() {
-        $scope.venues.push($scope.emptyVenue);
-        $http.post('/saveVenue', {venue: $scope.emptyVenue})
-            .success(function(data, status, headers, config) {
-                if(status === 200) {
-                    $scope.emptyVenue = __emptyVenue;
-                    $log.info("Venue saved: " + data);
-                }
-            });
-        $location.path('');
-    }
-
-    $scope.setActiveVenue = function(id) {
-        $scope.activeVenueId = id;
-    }
-    
+ 
     $scope.$watch('saveActiveVenue', function() {
         if($scope.saveActiveVenue === "save") {
             $scope.saveActiveVenue = "false";
         }
     })
- 
-    
     
     /*
     * =============== DETAILS =============================
@@ -116,6 +138,11 @@ myApp.controller('venueController', ['$scope', '$log', '$location', '$http', fun
         $location.path($location.path() + "/"+index+"/update");
     }
     
+    $scope.removeActiveOffice = function() {
+       $scope.activeVenue.offices.splice([$scope.activeOffice], 1);
+        $location.path("venue/" + $scope.activeVenue._id + "/offices");
+    }
+    
     
     
     /*
@@ -141,8 +168,10 @@ myApp.controller('venueController', ['$scope', '$log', '$location', '$http', fun
     
     $scope.addTag = function(tag) {
         $log.debug("Tag added: " + tag);
-        $scope.activeVenue.tags.push(tag);
-        $scope.tag = '';
+        if( $scope.activeVenue.tags.indexOf(tag) == -1){
+            $scope.activeVenue.tags.push(tag);
+            $scope.activeVenue.tags.sort();
+        }
     }
     
     
