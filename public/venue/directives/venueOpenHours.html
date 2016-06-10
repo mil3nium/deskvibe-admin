@@ -1,5 +1,11 @@
-<div class="open_day">
-    {{ day.day }} : Open <input type="checkbox" data-ng-model="day.open" />
-    <select input-half-hour data-ng-model="day.start" />
-    <select input-half-hour data-ng-model='day.end' />
+<div class="open_day col-sm-12">
+    <div class="col-sm-3">
+        {{ day.day }} : Open <input type="checkbox" data-ng-model="day.open" />
+    </div>
+    <div class="col-sm-4">
+        <select class="form-control" input-half-hour data-ng-model="day.start" />
+    </div>
+    <div class="col-sm-4">
+        <select class="form-control" input-half-hour data-ng-model='day.end' />
+    </div>
 </div>

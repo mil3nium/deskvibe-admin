@@ -1,7 +1,28 @@
+#tag_list {
+    margin-top: 3px;
+}
+
+
 .tag {
+    display: inline-block;
     font-size: 13px;
     border: 1px grey solid;
     padding: 4px;
     border-radius: 7px;
-    margin: 0 2px;
+    margin: 3px 2px;
+    text-align: center;
 }
+
+.open_day {
+    margin: 5px 0;
+}
+
+.navbar {
+    margin: 0px;
+}
+
+.goodie-arrow {
+    margin: 60px 0;
+}
+
+

@@ -9,6 +9,7 @@ myApp.directive('venueInfo', function() {
     return {
         templateUrl: 'venue/directives/venueInfo.html',
         replace: true,
+        transclude: true,
         scope: {
             venue: '=',
             getGoogleDataFunction: '&'
@@ -16,6 +17,16 @@ myApp.directive('venueInfo', function() {
         transclude: true
     }
 });
+
+myApp.directive('venueListItem', function() {
+    return {
+        templateUrl: 'venue/directives/venueListItem.html',
+        scope: {
+            header: '@',
+            description: '@'
+        }
+    }
+})
 
 myApp.directive('venueSearchResults', function() {
 

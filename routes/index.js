@@ -102,10 +102,11 @@ router.get('/getVenues', function(req, res, next) {
 router.post('/saveVenue', function(req, res, next) {
     if(req.body.venue) {
         Spaces.saveVenue(req.body.venue, function(err, venue) {
+            console.log("No errors: " + err);
             if(!err) {
-                res.status(200).end(venue);
+                res.status(200).send('{"success" : "Added Successfully", "status" : 200}');
+                res.end();
             } else {
-                console.error(err);
                 res.status(500).end("Could not save data to Database");
             }
         });

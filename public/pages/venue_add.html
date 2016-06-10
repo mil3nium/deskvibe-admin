@@ -5,6 +5,11 @@
 <venue-info class="col-sm-12"
                venue="emptyVenue"
                 get-google-data-function="getGoogleData(address)">
+                <a venue-list-item 
+                   data-ng-repeat="item in googleSearchList"
+                   header="{{ item.formatted_address }}"
+                   data-ng-click="selectAddress($index)"></a>
 </venue-info>
+
 
 

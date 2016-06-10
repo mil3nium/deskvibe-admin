@@ -23,10 +23,11 @@ var Venues = new Schema({
     type: String,
     sqm: Number,
     description: String,
+    open_all_hours: Boolean,
     open_hours: [{_id: false, open: Boolean, day: String, start: String, end: String}],
     amenities: [],
     location: {
-        formated_address: String,
+        formatted_address: String,
         street: String,
         street_number: Number,
         postal_code: Number,
@@ -43,6 +44,7 @@ var Office = new Schema({
     type: String,
     seats: String,
     description: String,
+    hour: Number,
     day: Number,
     week: Number,
     month: Number
@@ -62,7 +64,7 @@ exports.getTemplate = function() {
     space.contact.name = "";
     space.contact.email = "";
     space.location = {
-        formated_address: "",
+        formatted_address: "",
         street: "",
         street_number: "",
         postal_code: 0,
@@ -72,6 +74,7 @@ exports.getTemplate = function() {
         lat: 0,
         lng: 0
     };
+    space.open_all_hours = false;
     space.open_hours = Empty_hours();
     space.offices = new Offices();
     space.amenities = [
@@ -125,16 +128,14 @@ exports.getVenues = function(id, callback) {
 };
 
 exports.saveVenue = function(venue, callback) {
-    if(venue._id != "") {
-        Spaces.findOneAndUpdate({_id: venue._id}, venue, {overwrite: true, upsert: true}, function(err, updatedVenue) {
-            if(!err) {
-                if(updatedVenue)
-                    callback();
-            } else {
-                callback(err);
-            }
-        })
-    }
+    console.log("Saving...")
+    Spaces.findOneAndUpdate({_id: venue._id}, venue, {overwrite: true, upsert: true}, function(err, updatedVenue) {
+        if(!err) {
+            callback();
+        } else {
+            callback(err);
+        }
+    })
 }
 
 exports.addSpace = function(_id, state, name, contact_name, contact_email, street, street_number, postal_code, postal_town,

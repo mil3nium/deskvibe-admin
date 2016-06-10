@@ -1,17 +1,16 @@
+<h1>Venue List</h1>
 
-<a data-ng-href="#/venue/add" class="btn btn-success col-sm-12" >Add venue</a>
-
-<br />
+<input type="text" class="form-control" placeholder="Searchstring" data-ng-model="searchString" />
 
 <h3>Search results</h3>
-<input type="text" class="form-control" placeholder="Searchstring" data-ng-model="searchString" />
+
 <div class="list-group">
     <venue-search-results 
         data-ng-repeat="venue in venues | filter:searchString"
         data-ng-click="setActiveVenue(venue._id)"
         venue-id="{{ venue._id }}"
         venue-name="{{ venue.name }}"
-        venue-description="{{ venue.location.formated_address }}"
+        venue-description="{{ venue.location.formatted_address }}"
         >
     </venue-search-results>
 </div>

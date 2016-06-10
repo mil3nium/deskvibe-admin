@@ -14,7 +14,7 @@
         </div>
         <button type="button" class="btn btn-success col-sm-2" data-ng-click="addTag(tag); tag = '';">Add tag</button>
         <div class="col-sm-2"></div>
-        <div class="col-sm-10" id="tag_list">
+        <div class="col-sm-8" id="tag_list">
             <venue-tag-list 
                         data-ng-repeat="tag in activeVenue.tags"
                         data-ng-click="removeTag($index)"
@@ -23,32 +23,39 @@
         </div>
     </fieldset>
     <fieldset class="form-group row" id="amenities_list">
-        <label for="amenities" class="col-sm-2 form-control-label">Amenities</label>
-        <div class="col-sm-5">
-            <h3>Available</h3>
-            <venue-goodies-list
-                                data-ng-repeat="goodie in emptyVenue.amenities"
-                                data-ng-click="goodieAdd(goodie)"
+            <label for="amenities" class="col-sm-2 form-control-label">Amenities</label>
+            <div class="col-sm-3">
+                <h3>Not active</h3>
+                <venue-goodies-list
+                                    data-ng-repeat="goodie in goodiesTemp"
+                                    data-ng-hide=""
+                                    data-ng-click="goodieAdd(goodie)"
+                                    goodie="{{ goodie }}">
+                </venue-goodies-list>
+
+            </div>
+            <div class="col-sm-2">
+                <i class="goodie-arrow fa fa-caret-square-o-right fa-2x"></i>
+            </div>
+            <div class="col-sm-5">
+                <h3>Active</h3>
+                <venue-goodies-list 
+                                data-ng-repeat="goodie in activeVenue.amenities"
+                                data-ng-click="goodieRemove(goodie)"
                                 goodie="{{ goodie }}">
-            </venue-goodies-list>
-            <div class="col-sm-12">
+                </venue-goodies-list>
+            </div>
+        </div>
+        <div class="col-sm-12">
+        <div class="col-sm-7"></div>
+        
+        <div class="col-sm-3">
                 <input type="text" 
                        class="form-control"
                        placeholder="Add other eg: best office"
                        data-ng-init="newGoodie = ''"
                        data-ng-model="newGoodie"
                        my-enter="goodieAdd(newGoodie); newGoodie = ''" />
-            </div>
         </div>
-        <div class="col-sm-5">
-            <h3>Active</h3>
-            <venue-goodies-list 
-                            data-ng-repeat="goodie in activeVenue.amenities"
-                            data-ng-click="goodieRemove(goodie)"
-                            goodie="{{ goodie }}">
-            </venue-goodies-list>
-        </div>
-        <div class="col-sm-2"></div>
-        
     </fieldset>
 </form>

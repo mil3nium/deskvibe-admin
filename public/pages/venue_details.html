@@ -36,27 +36,23 @@
 
     <fieldset class="form-group row">
         <label for="open_hours" class="col-sm-2 form-control-label">Open hours</label>
-        <input type="checkbox" data-ng-model="detailsSameDay"> Same monday through friday?
+        <div class="col-sm-5">
+            <input type="checkbox" data-ng-model="detailsSameDay"> Same monday through friday?
+        </div>
+        <div class="col-sm-5">
+            <input type="checkbox" data-ng-model="activeVenue.open_all_hours" data-ng-click="detailsOpenAllHours()"> Open 24/7
+        </div>
         
-        <div class="col-sm-10" id="open_hour_list">
+        <div class="col-sm-10" id="open_hour_list" data-ng-hide="activeVenue.open_all_hours">
             
             <venue-open-hours day="detailsOpenHours" 
                               data-ng-show="detailsSameDay===true">
             </venue-open-hours>
-            
-            <venue-open-hours day="activeVenue.open_hours[5]"
-                              data-ng-show="detailsSameDay===true">
-            </venue-open-hours>
-            <venue-open-hours day="activeVenue.open_hours[6]"
-                              data-ng-show="detailsSameDay===true">
-            </venue-open-hours>
-            
-            <venue-open-hours data-ng-hide="detailsSameDay===true"
-                              data-ng-repeat="day in activeVenue.open_hours"
+        
+            <venue-open-hours data-ng-repeat="day in activeVenue.open_hours track by $index"
+                              data-ng-show="detailsSameDay===false || $index > 4"
                               day="day" >
             </venue-open-hours>
-            
-            
         </div>
     </fieldset>
 </form>

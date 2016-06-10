@@ -1,25 +1,24 @@
 
     <div class="container">
         <ul class="nav navbar-nav">
-            <li><a data-ng-href="#/"><i class="fa fa-home"></i> List</a></li>
+            <li><a data-ng-href="#/venue/{{ activeVenueId }}"><i class="fa">Contact Info</i> </a></li>
         </ul>
         <ul class="nav navbar-nav">
-            <li><a data-ng-href="#/venue/{{ activeVenueId }}"><i class="fa fa-home"></i> Info</a></li>
+            <li><a data-ng-href="#/venue/{{ activeVenueId }}/details"><i class="fa">Details</i></a></li>
         </ul>
         <ul class="nav navbar-nav">
-            <li><a data-ng-href="#/venue/{{ activeVenueId }}/details"><i class="fa"></i> Details</a></li>
+            <li><a data-ng-href="#/venue/{{ activeVenueId }}/offices"><i class="fa">Offices</i> </a></li>
         </ul>
         <ul class="nav navbar-nav">
-            <li><a data-ng-href="#/venue/{{ activeVenueId }}/offices"><i class="fa fa-home"></i> Offices</a></li>
+            <li><a data-ng-href="#/venue/{{ activeVenueId }}/goodies"><i class="fa">Goodies</i> </a></li>
         </ul>
         <ul class="nav navbar-nav">
-            <li><a data-ng-href="#/venue/{{ activeVenueId }}/goodies"><i class="fa fa-home"></i> Goodies</a></li>
+            <li><a href="" data-ng-click="saveActiveVenue()"><strong class="fa fa-floppy-o"> SAVE</strong></a></li>
         </ul>
         <ul class="nav navbar-nav">
-            <li><a href="" data-ng-click="saveActiveVenue()"><i class="fa fa-home"></i> SaveVenue</a></li>
-        </ul>
-        <ul class="nav navbar-nav">
-            <li><a href="" data-ng-click="removeActiveVenue()"
-                            data-ng-confirm-click="Are you sure you want to delete the venue?"><i class="fa fa-home"></i> RemoveVenue</a></li>
+            <li><a href="" 
+                   data-ng-click="removeActiveVenue()"
+                            data-ng-confirm-click="Are you sure you want to delete the venue?"><strong 
+                   class="fa fa-ban" > DELETE</strong> </a></li>
         </ul>
     </div>

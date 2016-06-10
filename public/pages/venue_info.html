@@ -1,10 +1,19 @@
-<h1>{{ activeVenue.name }}</h1>
-
 <form id="venue_form">
 
     <!-- CONTACT INFO -->
     <h2>Contact Info</h2>
-    <venue-info
-                venue="activeVenue">
-    </venue-info>
+    <div class="col-sm-12">
+        <venue-info
+                    venue="activeVenue"
+                    get-google-data-function="getGoogleData(address)">
+                    <div class="col-sm-12">
+                        <a venue-list-item 
+                           data-ng-repeat="item in googleSearchList"
+                           header="{{ item.formatted_address }}"
+                           data-ng-click="selectAddress($index)"></a>
+                    </div>
+        </venue-info>
+    </div>
+    
+    
 </form>
