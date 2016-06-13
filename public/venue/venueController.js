@@ -1,5 +1,7 @@
 myApp.controller('venueController', ['$scope', '$log', '$location', '$http', function($scope, $log, $location, $http) {
             
+    var __emptyVenue = {};
+    
     $scope.searchString = '';
     $scope.SearchAddress = "";
     
@@ -15,42 +17,79 @@ myApp.controller('venueController', ['$scope', '$log', '$location', '$http', fun
     var updateVenue = false;
     
     $scope.$on('$routeChangeStart', function (next, current) {
-        $log.info();
-        $scope.googleSearchList = [];
-        if($scope.activeVenue || current.$$route.originalPath === "/venue/add")
-            $scope.saveActiveVenue();
-        else 
-            $location.path('');
+        if($scope.activeVenue){
+            if(updateVenue === true)
+                $scope.saveActiveVenue();
+        } else if($location.path() === "/venue/add") {
+            
+        } else {
+            $location.path("/");
+        }
     });
+    
+    $scope.$watch('activeVenue', function(newValue, oldValue) {
+    })
+    
+    /*
+    * =============== WATCHERS =============================
+    */ 
+    
+    $scope.$watch('activeVenueId', function(){
+        angular.forEach($scope.venues, function(val, key) {
+            if(val._id === $scope.activeVenueId){
+                $scope.activeVenue = $scope.venues[key];
+                goodiesInit();
+                $scope.emptyVenue = angular.copy(__emptyVenue);
+            }
+        });
+    }); 
+    
+    $scope.$watch('activeVenue', function(newValue, oldValue) {
+        $log.log($location.path());
+        $log.log(updateVenue);
+        if(!updateVenue && $location.path() !== "/"){
+            updateVenue = true;
+        }
+    }, true)
+    
+    
     
     /*
     * =============== VENUE LIST =============================
     */ 
     
     $scope.addVenue = function() {
-        $scope.venues.push($scope.emptyVenue);
-        $http.post('/saveVenue', {venue: $scope.emptyVenue})
-            .success(function(data, status, headers, config) {
-                if(status === 200) {
-                    $log.info("Venue saved: " + data);
-                    $scope.emptyVenue = angular.copy(__emptyVenue);
-                }
-            });
-        $location.path('');
+        if($scope.emptyVenue.name != "" && $scope.emptyVenue.contact.name != "" && 
+           $scope.emptyVenue.contact.email != "" && $scope.emptyVenue.location.formatted_address) {
+            $scope.emptyVenue.amenities = [];
+            $scope.venues.push(angular.copy($scope.emptyVenue));
+            $log.info("Saving venue " + $scope.emptyVenue.name + " ...");
+
+            $http.post('/saveVenue', {venue: $scope.emptyVenue})
+                .success(function(data, status, headers, config) {
+                    if(status === 200) {
+                        $log.info("Venue saved");
+                        $scope.emptyVenue = angular.copy(__emptyVenue);
+                        $scope.activeVenue = $scope.venues[$scope.venues.length-1];
+                        $scope.activeVenueId = $scope.activeVenue._id;
+                        $location.path("/venue/" + $scope.activeVenue._id);
+                        getTemplate();
+                    }
+                });
+        }
     }
     
     $scope.removeActiveVenue = function() {
         var index = $scope.venues.indexOf($scope.activeVenue);
         if(index != -1) {
-            $log.debug("Deleting venue : " + $scope.activeVenue.name + " ... ")
+            $log.info("Deleting venue : " + $scope.activeVenue.name + " ... ")
             $http.post('/deleteVenue', {_id: $scope.activeVenue._id})
             
             .success( function(data, status, headers, config) {
                 $scope.venues.splice(index, 1);
                 $scope.activeVenue = null;
                 $location.path('');
-                $scope.saveActiveVenue();
-                $log.debug("Deleted venue");
+                $log.info("Deleted venue");
             } )
         }
     }
@@ -68,40 +107,10 @@ myApp.controller('venueController', ['$scope', '$log', '$location', '$http', fun
         }
     }
     
-    
-    /*
-    * =============== WATCHERS =============================
-    */ 
-    
-    $scope.$watch('activeVenueId', function(){
-        $log.info($scope.activeVenueId);
-        angular.forEach($scope.venues, function(val, key) {
-            if(val._id === $scope.activeVenueId){
-                $scope.activeVenue = $scope.venues[key];
-                $log.debug($scope.activeVenue);
-                goodiesInit();
-                $scope.detailsOpenHours.start = $scope.activeVenue.open_hours[0].start;
-                $scope.detailsOpenHours.end = $scope.activeVenue.open_hours[0].end;
-            }
-        });
-    }); 
-    
-    
-    $scope.$watch('activeVenue', function(newValue, oldValue) {
-        if(!updateVenue && $location.path() !== "/"){
-            updateVenue = true;
-        }
-    }, true)
- 
-    $scope.$watch('saveActiveVenue', function() {
-        if($scope.saveActiveVenue === "save") {
-            $scope.saveActiveVenue = "false";
-        }
-    })
-    
     /*
     * =============== DETAILS =============================
     */ 
+    
     
     $scope.detailsSameDay = false;
     $scope.detailsOpenHours = {
@@ -124,6 +133,17 @@ myApp.controller('venueController', ['$scope', '$log', '$location', '$http', fun
         
     }, true);
     
+    $scope.detailsOpenMonFri = function() {
+        if(!$scope.detailsSameDay) {
+            $scope.detailsOpenHours.open = true;
+            $scope.detailsOpenHours.start = $scope.activeVenue.open_hours[0].start;
+            $scope.detailsOpenHours.end = $scope.activeVenue.open_hours[0].end;
+            $scope.detailsSameDay = !$scope.detailsSameDay;
+        }else {
+            $scope.detailsSameDay = !$scope.detailsSameDay;
+        }
+    }
+    
     
     
     /*
@@ -133,18 +153,17 @@ myApp.controller('venueController', ['$scope', '$log', '$location', '$http', fun
     $scope.activeOffice = null;
     
     $scope.addNewOffice = function(office) {
-        $log.debug("Saving office...");
+        $log.info("Saving office : " + office.type + " ...");
         
         $scope.activeVenue.offices.push(office);
         $scope.emptyVenue = angular.copy(__emptyVenue);
         
         $location.path("venue/" + $scope.activeVenue._id + "/offices");
         
-        $log.debug("Saved office")
+        $log.info("Saved office")
     }
     
     $scope.updateOffice = function(index) {
-        $log.debug("Office: " + index)
         $scope.activeOffice = index;
         $location.path($location.path() + "/"+index+"/update");
     }
@@ -160,18 +179,16 @@ myApp.controller('venueController', ['$scope', '$log', '$location', '$http', fun
     * ================ Goodies ==================================
     */
     
-    $scope.goodieAdd = function(goodie) {
+    $scope.goodieAdd = function(amenitieList, goodie) {
         if(goodie.length > 1) {
-            if($scope.activeVenue.amenities.indexOf(goodie) == -1){
-                $scope.activeVenue.amenities.push(goodie);
-                $scope.activeVenue.amenities.sort();
+            if(amenitieList.indexOf(goodie) == -1){
+                amenitieList.push(goodie);
+                amenitieList.sort();
                 var index = $scope.goodiesTemp.indexOf(goodie);
                 if(index != -1)
                     $scope.goodiesTemp.splice(index, 1);
             }
         }
-        
-        
     }
     
     $scope.goodieRemove = function(goodie) {
@@ -190,17 +207,14 @@ myApp.controller('venueController', ['$scope', '$log', '$location', '$http', fun
     $scope.addTag = function(tag) {
         if(tag.length > 1) {
             if( $scope.activeVenue.tags.indexOf(tag) == -1){
-                $log.debug("Tag added: " + tag);
                 $scope.activeVenue.tags.push(tag);
                 $scope.activeVenue.tags.sort();
-                tag = "hmm";
             }
         }
     }
     
     var goodiesInit = function() {
-        $log.debug("Init goodies")
-        $scope.goodiesTemp = $scope.emptyVenue.amenities;
+        $scope.goodiesTemp = angular.copy($scope.emptyVenue.amenities);
         $scope.goodiesTemp.sort();
         
         for(var i = 0; i < $scope.goodiesTemp.length; i++) {
@@ -217,18 +231,22 @@ myApp.controller('venueController', ['$scope', '$log', '$location', '$http', fun
     */
     
     $scope.googleSearchList = [];
+
+    var getTemplate = function() {
+            $http.get('/getTemplate').success(function(data, status, headers, config) {
+            __emptyVenue = angular.copy(data);
+            $scope.emptyVenue = angular.copy(data);
+        })
+    }    
+    getTemplate();
     
-    $http.get('/getTemplate').success(function(data, status, headers, config) {
-        __emptyVenue = angular.copy(data);
-        $scope.emptyVenue = data;
-        $log.debug($scope.emptyVenue);
-    })
     
     $http.get('/getVenues').success(function(data, status,  headers, config) {
         $scope.venues = data;
+        $log.info(data);
     });
     
-    $scope.getGoogleData = function(address) {
+    $scope.getGoogleData = function(venue, address) {
         $http.post('/getGoogleData', {googleAddress: address})
         .success(function(data, status, headers, config) {
             if(status === 200) {
@@ -236,31 +254,27 @@ myApp.controller('venueController', ['$scope', '$log', '$location', '$http', fun
                 angular.forEach(data.results, function(address, i) {
                     $scope.googleSearchList.push(address);
                 })
-                if($location.path() === "/venue/add") {
-                    
-                    //updatePositionData($scope.emptyVenue, data.results[0]);
-                } 
             }
         });
     }
     
     $scope.saveActiveVenue = function() {
         if(updateVenue) {
+            $log.info("Saving: ");
+            $log.info($scope.activeVenue);
             $http.post('/saveVenue', {venue: $scope.activeVenue})
             .success(function(data, status, headers, config) {
                 if(status === 200) {
-                    $log.debug("Successfully saved venue");
+                    $log.info("Server: Successfully saved venue");
                 }
             });
             updateVenue = false;
         } 
     }
     
-    function updatePositionData(venue, dataList) {
-        
-        $log.log(dataList);
-        
-        angular.forEach( dataList.address_components, function(data, i) {
+    $scope.updatePositionData = function(venue, dataList) {
+        if(dataList.formatted_address != null) {
+            angular.forEach( dataList.address_components, function(data, i) {
             switch (data.types[0]) {
                 case 'street_number': 
                     venue.location.street_number = data.long_name; break;
@@ -278,10 +292,18 @@ myApp.controller('venueController', ['$scope', '$log', '$location', '$http', fun
                     venue.location.country = data.long_name; break;
             }
         });
-        venue.location.lat = dataList.geometry.location.lat;
-        venue.location.lng = dataList.geometry.location.lng;
+            
+            
+        if(typeof dataList.geometry.location.lat === "function"){
+            venue.location.lat = dataList.geometry.location.lat();
+            venue.location.lng = dataList.geometry.location.lng();
+        } else {
+            venue.location.lat = dataList.geometry.location.lat;
+            venue.location.lng = dataList.geometry.location.lng;
+        }
+            
+            
         venue.location.formatted_address = dataList.formatted_address;
-        $log.log(venue);
-        
+        }
     }
 }]);

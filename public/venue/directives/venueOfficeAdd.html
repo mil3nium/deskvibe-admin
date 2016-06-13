@@ -3,9 +3,9 @@
         <label for="venue_type" class="col-sm-2 form-control-label">Type</label>
         <div class="col-sm-10">
             <select data-ng-model="office.type" class="form-control">
-                <option>Open space</option>
-                <option>Flex-/fixed desk</option>
-                <option>Closed office</option>
+                <option>Flex Desk</option>
+                <option>Fixed Desk</option>
+                <option>Private office</option>
                 <option>Meeting room</option>
             </select>
         </div>
@@ -24,25 +24,51 @@
     </fieldset>
     <fieldset class="form-group row">
         <label for="venue_price" class="col-sm-2 form-control-label">Prices</label>
-        <div class="col-sm-2"></div>
-        <div class="input-group col-sm-10">
-            <span class="input-group-addon">Hour</span>
-            <input type="number" data-ng-model="office.hour" class="form-control" placeholder="eg. 10">
+        <div class="col-sm-10">
+            <div class="input-group col-sm-12">
+                <span class="input-group-addon">Hour</span>
+                <input type="number" data-ng-model="office.hour" class="form-control" placeholder="eg. 10">
+            </div>
+            <div class="input-group col-sm-12">
+                <span class="input-group-addon">Day</span>
+                <input type="number" data-ng-model="office.day" class="form-control" placeholder="eg. 100">
+            </div>
+            <div class="input-group col-sm-12">
+                <span class="input-group-addon">Week</span>
+                <input type="number" data-ng-model="office.week" class="form-control" placeholder="eg. 500">
+            </div>
+            <div class="input-group col-sm-12">
+                <span class="input-group-addon">Month</span>
+                <input type="number" data-ng-model="office.month" class="form-control" placeholder="eg. 2000">
+            </div>
         </div>
-        <div class="col-sm-2"></div>
-        <div class="input-group col-sm-10">
-            <span class="input-group-addon">Day</span>
-            <input type="number" data-ng-model="office.day" class="form-control" placeholder="eg. 100">
+    </fieldset>
+    <fieldset class="form group row">
+        <label for="office_amenities" class="col-sm-2 form-control-label">Ekstra Goodies</label>
+        <div class="col-sm-4">
+            <h3>Not active</h3>
+            <venue-goodies-list
+                               data-ng-repeat="goodie in goodies"
+                               data-ng-show="office.amenities.indexOf(goodie) == -1"
+                               data-ng-click="office.amenities.push(goodie)"
+                               goodie="{{ goodie }}">
+            </venue-goodies-list>
         </div>
-        <div class="col-sm-2"></div>
-        <div class="input-group col-sm-10">
-            <span class="input-group-addon">Week</span>
-            <input type="number" data-ng-model="office.week" class="form-control" placeholder="eg. 500">
+        <div class="col-sm-2">
+            <i class="goodie-arrow fa fa-caret-square-o-right fa-2x"></i>
         </div>
-        <div class="col-sm-2"></div>
-        <div class="input-group col-sm-10">
-            <span class="input-group-addon">Month</span>
-            <input type="number" data-ng-model="office.month" class="form-control" placeholder="eg. 2000">
+        <div class="col-sm-4">
+            <h3>Active</h3>
+            <venue-goodies-list 
+                            data-ng-repeat="goodie in office.amenities"
+                            data-ng-click="office.amenities.splice(office.amenities.indexOf(goodie), 1)"
+                            goodie="{{ goodie }}">
+            </venue-goodies-list>
+            
+            <input type="text" class="form-control" placeholder="Eg. Nice view"
+                   data-ng-init="extra = ''"
+                   data-ng-model="extra"
+                   my-enter="goodieAdd({amenitieList: office.amenities, goodie: extra})"
         </div>
     </fieldset>
 </form>

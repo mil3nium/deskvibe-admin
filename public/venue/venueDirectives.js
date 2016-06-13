@@ -9,12 +9,12 @@ myApp.directive('venueInfo', function() {
     return {
         templateUrl: 'venue/directives/venueInfo.html',
         replace: true,
-        transclude: true,
         scope: {
             venue: '=',
+            updatePositionData: '&',
             getGoogleDataFunction: '&'
-        },
-        transclude: true
+        }
+        
     }
 });
 
@@ -27,21 +27,6 @@ myApp.directive('venueListItem', function() {
         }
     }
 })
-
-myApp.directive('venueSearchResults', function() {
-
-    return {
-        restrict: 'AE',
-        templateUrl: 'venue/directives/venueSearchResult.html',
-        replace: true,
-        scope: {
-            venueId: '@',
-            venueName: '@',
-            venueDescription: '@',
-            activeVenue: '@'
-        }
-    }
-});
 
 /**
 *   ========== DETAILS =============
@@ -67,7 +52,9 @@ myApp.directive('venueOfficeAdd', function() {
         templateUrl: 'venue/directives/venueOfficeAdd.html',
         replace: true,
         scope: {
-            office: '='
+            office: '=',
+            goodies: '=',
+            goodieAdd: '&'
         }
     }
 })
@@ -88,7 +75,7 @@ myApp.directive('venueOfficeList', function() {
 
 myApp.directive('venueTagList', function() {
     return {
-        templateUrl: 'venue/directives/venueTag.html',
+        template: '<a href="" class="tag" >{{ tag }}</a>',
         replace: true,
         scope: {
             tag: '@'
@@ -98,7 +85,7 @@ myApp.directive('venueTagList', function() {
 
 myApp.directive('venueGoodiesList', function() {
     return {
-        templateUrl: 'venue/directives/venueGoodie.html',
+        template: '<a href="" class="venueGoodie">{{ goodie }}<br /></a>',
         replace: true,
         scope: {
             goodie: '@'

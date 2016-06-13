@@ -1,7 +1,68 @@
+body {
+  padding: 50px;
+  font: 14px "Source Sans Pro", Helvetica, Arial, sans-serif;
+}
+
+a {
+    color: black;
+}
+
+header a {
+  color: #ffffff;
+    font-size: 20px;
+}
+
+.navbar {
+    margin: 0px;
+}
+
+.nav-main {
+    background-color: #0188ac !important;
+}
+
+.nav-under {
+    background-color: #fc6f70;
+}
+
+
+.dv-venue-list a:hover {
+    text-decoration: none;
+}
+
+.dv-venue-list-item-header {
+    color: #fff;
+}
+
+
+
+/*
+*   ========= DETAILS =========
+*/
+
+.open_day {
+    margin: 5px 0;
+}
+
+/*
+*   ========= OFFICE =========
+*/
+.card-office {
+    background-color: lightgrey;
+    border: 1px solid black;
+    height: 210px;
+}
+
+.card-office-new {
+    background-color: lightgreen !important;
+}
+
+/*
+*   ========= GOODIE =========
+*/
+
 #tag_list {
     margin-top: 3px;
 }
-
 
 .tag {
     display: inline-block;
@@ -11,14 +72,6 @@
     border-radius: 7px;
     margin: 3px 2px;
     text-align: center;
-}
-
-.open_day {
-    margin: 5px 0;
-}
-
-.navbar {
-    margin: 0px;
 }
 
 .goodie-arrow {

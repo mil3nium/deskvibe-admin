@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap']);
+var myApp = angular.module('myApp', ['ngRoute', 'google.places']);
 
 myApp.config(function ($routeProvider) {
     
@@ -38,5 +38,3 @@ myApp.config(function ($routeProvider) {
     })
     
 });
-
-var __emptyVenue = {};

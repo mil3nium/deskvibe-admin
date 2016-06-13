@@ -29,7 +29,7 @@
                 <venue-goodies-list
                                     data-ng-repeat="goodie in goodiesTemp"
                                     data-ng-hide=""
-                                    data-ng-click="goodieAdd(goodie)"
+                                    data-ng-click="goodieAdd(activeVenue.amenities, goodie)"
                                     goodie="{{ goodie }}">
                 </venue-goodies-list>
 
@@ -55,7 +55,7 @@
                        placeholder="Add other eg: best office"
                        data-ng-init="newGoodie = ''"
                        data-ng-model="newGoodie"
-                       my-enter="goodieAdd(newGoodie); newGoodie = ''" />
+                       my-enter="goodieAdd(activeVenue.amenities, newGoodie); newGoodie = ''" />
         </div>
     </fieldset>
 </form>

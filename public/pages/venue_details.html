@@ -37,10 +37,14 @@
     <fieldset class="form-group row">
         <label for="open_hours" class="col-sm-2 form-control-label">Open hours</label>
         <div class="col-sm-5">
-            <input type="checkbox" data-ng-model="detailsSameDay"> Same monday through friday?
+            <input type="checkbox" 
+                   data-ng-model="detailsSameDay"
+                   data-ng-true-value="true"
+                   data-ng-false-value="false"
+                   data-ng-click="detailsOpenMonFri()"> Same monday through friday?
         </div>
         <div class="col-sm-5">
-            <input type="checkbox" data-ng-model="activeVenue.open_all_hours" data-ng-click="detailsOpenAllHours()"> Open 24/7
+            <input type="checkbox" data-ng-model="activeVenue.open_all_hours"> Open 24/7
         </div>
         
         <div class="col-sm-10" id="open_hour_list" data-ng-hide="activeVenue.open_all_hours">

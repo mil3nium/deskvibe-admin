@@ -23,13 +23,14 @@
             <label for="Address" class="col-sm-2 form-control-label">Address</label>
             <div class="col-sm-6" >
                 <input type="text" 
-                       class="form-control" 
-                       placeholder="Search address"
-                       data-ng-init="Search = ''"
-                       data-ng-model="Search"
-                        my-enter="getGoogleDataFunction({address: Search})"
-                       >
-            
+                   class="form-control" 
+                   placeholder="Search address"
+                   g-places-autocomplete
+                   forceSelection
+                   data-ng-init="auto"
+                   data-ng-model="auto"
+                   data-ng-change="updatePositionData({venue: venue, address: auto})"
+                   />
             </div>
             <div class="col-sm-2">
                 <input type="text" class="form-control" placeholder="Country" value="Norway">
@@ -38,53 +39,53 @@
                 <button 
                         type="button" 
                         class="btn btn-primary col-sm-12"
-                        data-ng-click="getGoogleDataFunction({address: Search})"
+                        data-ng-click="getGoogleDataFunction({venue: venue, address: auto})"
                         >Search</button>
             </div>
+            
             <div class="col-sm-2"></div>
-            <div class="col-sm-4">
-                <ng-transclude></ng-transclude>
-            </div>
             <div class="col-sm-6">
-                <div class="col-sm-8">
-                    <input disabled type="text" class="form-control" data-ng-model="venue.location.street" placeholder="Address" name="input" required>
-                </div>
-                <div class="col-sm-4">
-                    <input disabled type="text" class="form-control" data-ng-model="venue.location.street_number" placeholder="Number">
-                </div>
+                <input disabled type="text" class="form-control" data-ng-model="venue.location.street" placeholder="Address" name="input" required>
+            </div>
+            <div class="col-sm-2">
+                <input disabled type="text" class="form-control" data-ng-model="venue.location.street_number" placeholder="Number">
+            </div>
+            <div class="col-sm-2">
+                <input disabled type="number" class="form-control" data-ng-model="venue.location.postal_code" placeholder="Post number" >
+            </div>
 
-                <div class="col-sm-4">
-                    <input disabled type="number" class="form-control" data-ng-model="venue.location.postal_code" placeholder="Post number" >
-                </div>
-                <div class="col-sm-4">
-                    <input disabled type="text" class="form-control" data-ng-model="venue.location.postal_town" placeholder="City" >
-                </div>
-                <div class="col-sm-4">
-                    <input disabled type="text" class="form-control" data-ng-model="venue.location.county" placeholder="County" >
-                </div>
-                <div class="col-sm-3">
-                    <input disabled type="text" class="form-control" data-ng-model="venue.state" placeholder="State" name="input" required>
-                </div>
-                <div class="col-sm-3">
-                    <input disabled type="text" class="form-control" data-ng-model="venue.location.country" placeholder="Country" >
-                </div>
-                <div class="col-sm-3">
-                    <input disabled type="text" class="form-control" data-ng-model="venue.location.lat" placeholder="Latitude" >
-                </div>
-                <div class="col-sm-3">
-                    <input disabled type="text" class="form-control" data-ng-model="venue.location.lng" placeholder="Longitude">
-                </div>
-                <div class="col-sm-12"><hr /></div>
-                <div role="alert">
-                    <span class="alert alert-warning" data-ng-show="venueForm.input.$error.required">
-                        Please fill in all fields
-                    </span>
-                    <span class="alert alert-warning" data-ng-show="venueForm.input.$error.email">
-                        Email is not the correct format
-                    </span>
-                </div>
+            <div class="col-sm-2"></div>
+            
+            <div class="col-sm-2">
+                <input disabled type="text" class="form-control" data-ng-model="venue.location.postal_town" placeholder="City" >
+            </div>
+            
+            <div class="col-sm-2">
+                <input disabled type="text" class="form-control" data-ng-model="venue.location.county" placeholder="County" >
+            </div>
+            <div class="col-sm-2">
+                <input disabled type="text" class="form-control" data-ng-model="venue.state" placeholder="State" name="input" required>
+            </div>
+            <div class="col-sm-2">
+                <input disabled type="text" class="form-control" data-ng-model="venue.location.country" placeholder="Country" >
+            </div>
+            <div class="col-sm-1">
+                <input disabled type="text" class="form-control" data-ng-model="venue.location.lat" placeholder="Latitude" >
+            </div>
+            <div class="col-sm-1">
+                <input disabled type="text" class="form-control" data-ng-model="venue.location.lng" placeholder="Longitude">
+            </div>
+
+            <div class="col-sm-12"><hr /></div>
+
+            <div role="alert">
+                <span class="alert alert-warning" data-ng-show="venueForm.input.$error.required">
+                    Please fill in all fields
+                </span>
+                <span class="alert alert-warning" data-ng-show="venueForm.input.$error.email">
+                    Email is not the correct format
+                </span>
             </div>
         </fieldset>
     </form>
-    
 </div>

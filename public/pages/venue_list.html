@@ -4,15 +4,15 @@
 
 <h3>Search results</h3>
 
-<div class="list-group">
-    <venue-search-results 
+<div class="list-group dv-venue-list">
+    <a  venue-list-item 
         data-ng-repeat="venue in venues | filter:searchString"
+        ng-href="#/venue/{{ venue._id }}"
         data-ng-click="setActiveVenue(venue._id)"
-        venue-id="{{ venue._id }}"
-        venue-name="{{ venue.name }}"
-        venue-description="{{ venue.location.formatted_address }}"
+        header="{{ venue.name }}"
+        description="{{ venue.location.formatted_address }}"
         >
-    </venue-search-results>
+    </a>
 </div>
 
 

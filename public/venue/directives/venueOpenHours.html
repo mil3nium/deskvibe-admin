@@ -1,6 +1,9 @@
 <div class="open_day col-sm-12">
     <div class="col-sm-3">
-        {{ day.day }} : Open <input type="checkbox" data-ng-model="day.open" />
+        {{ day.day }} : Open <input type="checkbox" 
+                                    data-ng-model="day.open" 
+                                    data-ng-true-value="true"
+                                    data-ng-false-value="false"/>
     </div>
     <div class="col-sm-4">
         <select class="form-control" input-half-hour data-ng-model="day.start" />

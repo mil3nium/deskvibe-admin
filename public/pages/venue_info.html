@@ -3,17 +3,16 @@
     <!-- CONTACT INFO -->
     <h2>Contact Info</h2>
     <div class="col-sm-12">
-        <venue-info
-                    venue="activeVenue"
-                    get-google-data-function="getGoogleData(address)">
-                    <div class="col-sm-12">
-                        <a venue-list-item 
-                           data-ng-repeat="item in googleSearchList"
-                           header="{{ item.formatted_address }}"
-                           data-ng-click="selectAddress($index)"></a>
-                    </div>
+        <venue-info venue="activeVenue"
+                    update-position-data="updatePositionData(venue, address)"
+                    get-google-data-function="getGoogleData(venue, address)">  
         </venue-info>
     </div>
-    
-    
+    <div class="col-sm-12">
+        <a venue-list-item 
+                         data-ng-repeat="listItem in googleSearchList"
+                        data-ng-click="updatePositionData(activeVenue, listItem)"
+                        header="{{listItem.formatted_address}}">
+        </a>
+    </div>
 </form>

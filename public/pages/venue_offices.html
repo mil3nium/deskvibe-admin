@@ -5,10 +5,19 @@
 <div id="office_list">
     
     <a venue-office-list 
+       href=""
         data-ng-repeat="office in activeVenue.offices"
-        data-ng-href=""
         data-ng-click="updateOffice($index)"
        office="office">
+    </a>
+       
+    <a data-ng-href="#/venue/{{ activeVenue._id }}/offices/add">
+        <div class="card card-inverse card-office card-office-new col-sm-4">
+            <div class="card-img-overlay">
+                <h4 class="card-title"> New office </h4>
+                <p class="card-text">Add a office by pressing me!</p>
+            </div>
+        </div>
     </a>
        
 </div>
